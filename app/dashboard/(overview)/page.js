@@ -17,11 +17,11 @@ export default async function Page() {
   return (
     <>
       <p className={`text-center ${inter.className}`}>HOME</p>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
         </Suspense>
-      </div>
+      </div> */}
     </>
   );
 }
