@@ -7,7 +7,7 @@ import { useDebouncedCallback } from "use-debounce";
 export default function Search({ placeholder }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
+  // const { replace } = useRouter();
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
@@ -16,7 +16,7 @@ export default function Search({ placeholder }) {
     } else {
       params.delete("query");
     }
-    replace(`${pathname}?${params.toString()}`);
+    // replace(`${pathname}?${params.toString()}`);
   }, 300);
   return (
     <div className="relative flex flex-1 flex-shrink-0">
