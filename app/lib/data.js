@@ -145,12 +145,14 @@ export async function getFilteredBakatData(query, currentPage) {
       return filteredRows;
     }
     if (!query) {
-      const filteredRows = rows.sort((a, b) => {
-        // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
-        const dateA = new Date(a.tanggal);
-        const dateB = new Date(b.tanggal);
-        return dateA - dateB;
-      }); // Mengurutkan tanggal terbaru ke terlama.slice(offset, offset + ITEMS_PER_PAGE);
+      const filteredRows = rows
+        .sort((a, b) => {
+          // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
+          const dateA = new Date(a.tanggal);
+          const dateB = new Date(b.tanggal);
+          return dateA - dateB;
+        })
+        .slice(offset, offset + ITEMS_PER_PAGE); // Mengurutkan tanggal terbaru ke terlama.slice(offset, offset + ITEMS_PER_PAGE);
       return filteredRows;
     }
 
