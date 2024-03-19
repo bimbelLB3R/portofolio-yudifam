@@ -37,7 +37,13 @@ export default async function BakatTable({ query, currentPage }) {
                         height={28}
                         alt="foto aqila"
                       />
-                      <p className="first-letter:uppercase">{bakat.nama}</p>
+                      <div>
+                        <p className="first-letter:uppercase">{bakat.nama}</p>
+
+                        <p className="text-[8px] text-gray-500">
+                          {bakat.tanggal}
+                        </p>
+                      </div>
                     </div>
                     <p className="text-sm text-gray-500 uppercase">
                       {bakat.bakat}
