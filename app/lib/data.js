@@ -198,7 +198,7 @@ export async function getBakatData(query) {
   }
 }
 
-export async function getBakatDataById(idBakat) {
+export async function getBakatDataById(idBakatUpdate) {
   try {
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -213,11 +213,34 @@ export async function getBakatDataById(idBakat) {
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
     // console.log(dataFromSheet);
-    const bakatById = rows.filter((item) => item.idBakatById === idBakat);
-    return { bakatById };
+    const bakatById = rows.filter((item) => item.idBakat === idBakatUpdate);
+    return bakatById;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch data from bakat.");
+  }
+}
+
+export async function getAllBakat() {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+    // const dataFromSheet = rows.map((item) => item.tanggal);
+    // console.log(dataFromSheet);
+    const allBakats = rows.filter((item) => item);
+    return allBakats;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from Allbakat.");
   }
 }
 

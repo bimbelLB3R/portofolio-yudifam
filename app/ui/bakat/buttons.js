@@ -13,10 +13,10 @@ export function CreateBakat() {
   );
 }
 
-export function UpdateBakat(idBakat) {
+export function UpdateBakat({ id }) {
   return (
     <Link
-      href="/dashboard/bakat"
+      href={`/dashboard/bakat/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
