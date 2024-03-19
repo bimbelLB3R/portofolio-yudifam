@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import { CardsSkeleton } from "@/app/ui/skeletons";
 import { CardWrapper } from "@/app/ui/dashboard/cards";
 
-// export default async function Page() {
-export default function Page() {
+export default async function Page() {
+  // export default function Page() {
   // const newRow = {
   //   tanggal: "2024-03-17",
   //   aktivitas: "Libur di rumahkuuuu",

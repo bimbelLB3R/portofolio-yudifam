@@ -2,6 +2,8 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 
 const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
+const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
+const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
 
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
@@ -132,12 +134,23 @@ export async function getFilteredBakatData(query, currentPage) {
             item.nama.toLowerCase().includes(lowerQuery) ||
             item.bakat.toLowerCase().includes(lowerQuery)
         )
+        .sort((a, b) => {
+          // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
+          const dateA = new Date(a.tanggal);
+          const dateB = new Date(b.tanggal);
+          return dateA - dateB;
+        }) // Mengurutkan tanggal terbaru ke terlama
         .slice(offset, offset + ITEMS_PER_PAGE);
 
       return filteredRows;
     }
     if (!query) {
-      const filteredRows = rows.slice(offset, offset + ITEMS_PER_PAGE);
+      const filteredRows = rows.sort((a, b) => {
+        // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
+        const dateA = new Date(a.tanggal);
+        const dateB = new Date(b.tanggal);
+        return dateA - dateB;
+      }); // Mengurutkan tanggal terbaru ke terlama.slice(offset, offset + ITEMS_PER_PAGE);
       return filteredRows;
     }
 
@@ -201,5 +214,47 @@ export async function getBakatDataById(idBakat) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch data from bakat.");
+  }
+}
+
+export async function fetchDataAnaks() {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID2]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+
+    return rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from sheet 2.");
+  }
+}
+
+export async function fetchNamaBakats() {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+
+    return rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from sheet 2.");
   }
 }
