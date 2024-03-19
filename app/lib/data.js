@@ -136,10 +136,10 @@ export async function getFilteredBakatData(query, currentPage) {
         )
         .sort((a, b) => {
           // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
-          const dateA = new Date(a.tanggal);
-          const dateB = new Date(b.tanggal);
-          return dateA - dateB;
-        }) // Mengurutkan tanggal terbaru ke terlama
+          const dateA = a.idBakat;
+          const dateB = b.idBakat;
+          return dateB - dateA;
+        }) // Mengurutkan idBakat terbaru ke terlama
         .slice(offset, offset + ITEMS_PER_PAGE);
 
       return filteredRows;
@@ -147,10 +147,12 @@ export async function getFilteredBakatData(query, currentPage) {
     if (!query) {
       const filteredRows = rows
         .sort((a, b) => {
-          // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
-          const dateA = new Date(a.tanggal);
-          const dateB = new Date(b.tanggal);
-          return dateA - dateB;
+          // Pastikan bahwa Anda memiliki properti yang sesuai untuk idBakat di dalam objek 'item'
+          const dateA = a.idBakat;
+          console.log(`dateA=${dateA}`);
+          const dateB = b.idBakat;
+          console.log(`dateB=${dateB}`);
+          return dateB - dateA;
         })
         .slice(offset, offset + ITEMS_PER_PAGE); // Mengurutkan tanggal terbaru ke terlama.slice(offset, offset + ITEMS_PER_PAGE);
       return filteredRows;
