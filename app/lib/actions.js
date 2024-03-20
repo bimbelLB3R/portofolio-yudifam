@@ -87,6 +87,7 @@ export async function updateBakat(formData) {
 
 // delete
 export async function deleteBakatById(formData) {
+  // throw new Error("Failed to Delete Invoice");
   const idToDel = formData.get("id_bakat");
   // console.log(`iddel=${idToDel}`);
   try {

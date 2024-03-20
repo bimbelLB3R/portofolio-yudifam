@@ -51,20 +51,20 @@ export default async function BakatTable({ query, currentPage }) {
                   </div>
                   <BakatStatus status={bakat.status} />
                 </div>
+                <div className="flex justify-end gap-2 p-1">
+                  <div className="flex items-center justify-center">
+                    <UpdateBakat id={bakat.idBakat} />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <DeleteBakat iddel={bakat.idBakat} />
+                  </div>
+                </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-sm font-medium uppercase">
                       {bakat.aktivitas}
                     </p>
-                    <p>{bakat.cerita}</p>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <div className="flex items-center justify-center">
-                      <UpdateBakat id={bakat.idBakat} />
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <DeleteBakat iddel={bakat.idBakat} />
-                    </div>
+                    <p className="text-sm">{bakat.cerita}</p>
                   </div>
                 </div>
               </div>
