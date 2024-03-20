@@ -1,3 +1,4 @@
+import { deleteBakatById } from "@/app/lib/actions";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -14,6 +15,7 @@ export function CreateBakat() {
 }
 
 export function UpdateBakat({ id }) {
+  // console.log(`idupdate=${id}`);
   return (
     <Link
       href={`/dashboard/bakat/${id}/edit`}
@@ -24,13 +26,19 @@ export function UpdateBakat({ id }) {
   );
 }
 
-export function DeleteBakat(idBakat) {
+export function DeleteBakat({ iddel }) {
+  // const idBakatwillDel = id;
+  // console.log(`bakatskirim=${bakats}`);
+  // const deleteBakatWithId = deleteBakatById.bind(null, id);
   return (
     <>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
+      <form action={deleteBakatById}>
+        <input type="hidden" name="id_bakat" value={iddel} />
+        <button className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span>
+          <TrashIcon className="w-5" />
+        </button>
+      </form>
     </>
   );
 }

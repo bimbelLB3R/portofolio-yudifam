@@ -84,3 +84,32 @@ export async function updateBakat(formData) {
   revalidatePath("/dashboard/bakat");
   redirect("/dashboard/bakat");
 }
+
+// delete
+export async function deleteBakatById(formData) {
+  const idToDel = formData.get("id_bakat");
+  // console.log(`iddel=${idToDel}`);
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+    const rowToDel = rows.find((item) => item.idBakat === idToDel);
+    // console.log(rowToDel);
+    if (rowToDel) {
+      await rowToDel.del();
+    }
+    // console.log(rowToDelAll);
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to del data from sheet.");
+  }
+  revalidatePath("/dashboard/bakat");
+}
