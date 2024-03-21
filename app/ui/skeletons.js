@@ -83,7 +83,7 @@ export function TableRowSkeleton() {
     </tr>
   );
 }
-
+// bakat
 export function BakatsMobileSkeleton() {
   return (
     <div className="mb-2 w-full rounded-md bg-white p-4">
@@ -94,14 +94,14 @@ export function BakatsMobileSkeleton() {
         </div>
         <div className="h-6 w-16 rounded bg-gray-100"></div>
       </div>
+      <div className="flex justify-end gap-2">
+        <div className="h-10 w-10 rounded bg-gray-100"></div>
+        <div className="h-10 w-10 rounded bg-gray-100"></div>
+      </div>
       <div className="flex w-full items-center justify-between pt-4">
         <div>
           <div className="h-6 w-16 rounded bg-gray-100"></div>
           <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
-        </div>
-        <div className="flex justify-end gap-2">
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
         </div>
       </div>
     </div>
@@ -125,16 +125,16 @@ export function BakatsTableSkeleton() {
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Nama
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Tanggal
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Aktivitas
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
                   Jenis Bakat
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Tanggal
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  500
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Tanggal
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Status

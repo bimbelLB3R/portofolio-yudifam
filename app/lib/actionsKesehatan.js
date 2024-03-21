@@ -6,19 +6,19 @@ import { UpdateBakat } from "../ui/bakat/buttons";
 
 const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
+const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
-export async function createInvoice(formData) {
+export async function createKesehatan(formData) {
   const date = new Date().toISOString().split("T")[0];
-  const idBakat = Date.now(); //timestamp
+  const idKesehatan = Date.now(); //timestamp
   const rawFormData = {
-    tanggal: date,
+    tgl_created: date,
     nama: formData.get("namaAnak"),
-    aktivitas: formData.get("aktivitas"),
-    cerita: formData.get("cerita"),
-    bakat: formData.get("bakat"),
-    idBakat: idBakat,
-    status: formData.get("status"),
+    jenis_penyakit: formData.get("jenis_penyakit"),
+    penyebab: formData.get("penyebab"),
+    id_penyakit: idKesehatan,
+    tindakan: formData.get("tindakan"),
     tgl_update: "",
   };
   try {
@@ -29,31 +29,30 @@ export async function createInvoice(formData) {
     // loads document properties and worksheets
     await doc.loadInfo();
     // console.log(SHEET_ID3);
-    const sheet = doc.sheetsById[SHEET_ID1];
+    const sheet = doc.sheetsById[SHEET_ID4];
     // console.log(sheet);
 
     await sheet.addRow(rawFormData);
   } catch (error) {
     console.error("Append Error:", error);
-    throw new Error("Failed to append data from tambah bakat.");
+    throw new Error("Gagal create data kesehatan.");
   }
-  revalidatePath("/dashboard/bakat");
-  redirect("/dashboard/bakat");
+  revalidatePath("/dashboard/kesehatan");
+  redirect("/dashboard/kesehatan");
 }
 
 // update
 
-export async function updateBakat(formData) {
+export async function updateKesehatan(formData) {
   const date = new Date().toISOString().split("T")[0];
-  const id_Bakat = formData.get("id_bakat");
+  const idPenyakit = formData.get("id_penyakit");
   const rawFormData = {
-    tanggal: formData.get("tanggal"),
+    tgl_created: formData.get("tgl_created"),
     nama: formData.get("namaAnak"),
-    aktivitas: formData.get("aktivitas"),
-    cerita: formData.get("cerita"),
-    bakat: formData.get("bakat"),
-    idBakat: id_Bakat,
-    status: formData.get("status"),
+    jenis_penyakit: formData.get("jenis_penyakit"),
+    penyebab: formData.get("penyebab"),
+    id_penyakit: idPenyakit,
+    tindakan: formData.get("tindakan"),
     tgl_update: date,
   };
   try {
@@ -64,32 +63,31 @@ export async function updateBakat(formData) {
     // loads document properties and worksheets
     await doc.loadInfo();
     // console.log(SHEET_ID3);
-    const sheet = doc.sheetsById[SHEET_ID1];
+    const sheet = doc.sheetsById[SHEET_ID4];
     const rows = await sheet.getRows();
-    const rowToUpdate = rows.find((item) => item.idBakat === id_Bakat);
+    const rowToUpdate = rows.find((item) => item.id_penyakit === idPenyakit);
     if (rowToUpdate) {
-      rowToUpdate.tanggal = rawFormData.tanggal;
+      rowToUpdate.tgl_created = rawFormData.tgl_created;
       rowToUpdate.nama = rawFormData.nama;
-      rowToUpdate.aktivitas = rawFormData.aktivitas;
-      rowToUpdate.cerita = rawFormData.cerita;
-      rowToUpdate.bakat = rawFormData.bakat;
-      rowToUpdate.idBakat = rawFormData.idBakat;
-      rowToUpdate.status = rawFormData.status;
+      rowToUpdate.jenis_penyakit = rawFormData.jenis_penyakit;
+      rowToUpdate.penyebab = rawFormData.penyebab;
+      rowToUpdate.id_penyakit = rawFormData.id_penyakit;
+      rowToUpdate.tindakan = rawFormData.tindakan;
       rowToUpdate.tgl_update = rawFormData.tgl_update;
       await rowToUpdate.save();
     }
   } catch (error) {
     console.error("Append Error:", error);
-    throw new Error("Failed to update data .");
+    throw new Error("Gagal Up date data kesehatan");
   }
-  revalidatePath("/dashboard/bakat");
-  redirect("/dashboard/bakat");
+  revalidatePath("/dashboard/kesehatan");
+  redirect("/dashboard/kesehatan");
 }
 
 // delete
-export async function deleteBakatById(formData) {
+export async function deleteKesehatanById(formData) {
   // throw new Error("Failed to Delete Invoice");
-  const idToDel = formData.get("id_bakat");
+  const idToDel = formData.get("id_penyakit");
   // console.log(`iddel=${idToDel}`);
   try {
     // Autentikasi dengan kredensial
@@ -101,9 +99,9 @@ export async function deleteBakatById(formData) {
     // Load informasi lembar kerja
     await doc.loadInfo();
 
-    const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
+    const sheet = doc.sheetsById[SHEET_ID4]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
-    const rowToDel = rows.find((item) => item.idBakat === idToDel);
+    const rowToDel = rows.find((item) => item.id_penyakit === idToDel);
     // console.log(rowToDel);
     if (rowToDel) {
       await rowToDel.del();
@@ -111,7 +109,7 @@ export async function deleteBakatById(formData) {
     // console.log(rowToDelAll);
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to del data from sheet.");
+    throw new Error("Gagal hapus data kesehatan");
   }
-  revalidatePath("/dashboard/bakat");
+  revalidatePath("/dashboard/kesehatan");
 }
