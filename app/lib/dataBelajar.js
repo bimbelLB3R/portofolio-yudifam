@@ -6,11 +6,13 @@ const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
 const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
 const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
 const SHEET_ID5 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKEIMANAN;
+const SHEET_ID6 = process.env.NEXT_PUBLIC_SHEET_ID_DATABELAJAR;
+const SHEET_ID7 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKATEGORIBELAJAR;
 
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
 const ITEMS_PER_PAGE = 6;
-export async function getFilteredKeimananData(query, currentPage) {
+export async function getFilteredBelajarData(query, currentPage) {
   // console.log(`currentPAge=${currentPage}`);
   // console.log(query);
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -25,7 +27,7 @@ export async function getFilteredKeimananData(query, currentPage) {
     // Load informasi lembar kerja
     await doc.loadInfo();
 
-    const sheet = doc.sheetsById[SHEET_ID5]; // Misalnya, mengambil lembar kerja pertama
+    const sheet = doc.sheetsById[SHEET_ID6]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // let filteredRows = rows;
     if (query) {
@@ -34,12 +36,12 @@ export async function getFilteredKeimananData(query, currentPage) {
         .filter(
           (item) =>
             item.nama.toLowerCase().includes(lowerQuery) ||
-            item.jenis_keimanan.toLowerCase().includes(lowerQuery)
+            item.jenis_belajar.toLowerCase().includes(lowerQuery)
         )
         .sort((a, b) => {
           // Pastikan bahwa Anda memiliki properti yang sesuai untuk tanggal di dalam objek 'item'
-          const dateA = a.id_keimanan;
-          const dateB = b.id_keimanan;
+          const dateA = a.id_belajar;
+          const dateB = b.id_belajar;
           return dateB - dateA;
         }) // Mengurutkan idBakat terbaru ke terlama
         .slice(offset, offset + ITEMS_PER_PAGE);
@@ -50,9 +52,9 @@ export async function getFilteredKeimananData(query, currentPage) {
       const filteredRows = rows
         .sort((a, b) => {
           // Pastikan bahwa Anda memiliki properti yang sesuai untuk idBakat di dalam objek 'item'
-          const dateA = a.id_keimanan;
+          const dateA = a.id_belajar;
           // console.log(`dateA=${dateA}`);
-          const dateB = b.id_keimanan;
+          const dateB = b.id_belajar;
           // console.log(`dateB=${dateB}`);
           return dateB - dateA;
         })
@@ -61,16 +63,16 @@ export async function getFilteredKeimananData(query, currentPage) {
     }
 
     // Batasi jumlah data yang dikembalikan menjadi 6
-    const keimanans = filteredRows;
+    const belajars = filteredRows;
 
-    return keimanans;
+    return belajars;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Gagal ambil data keimanan.");
+    throw new Error("Gagal ambil data belajar.");
   }
 }
 
-export async function getKeimananData(query) {
+export async function getBelajarData(query) {
   try {
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -81,26 +83,26 @@ export async function getKeimananData(query) {
     // Load informasi lembar kerja
     await doc.loadInfo();
 
-    const sheet = doc.sheetsById[SHEET_ID5]; // Misalnya, mengambil lembar kerja pertama
+    const sheet = doc.sheetsById[SHEET_ID6]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
     // console.log(dataFromSheet);
     const queryHrfKecil = query.toLowerCase();
-    const keimanan = rows.filter(
+    const belajar = rows.filter(
       (item) =>
-        item.jenis_keimanan.toLowerCase().includes(queryHrfKecil) ||
+        item.jenis_belajar.toLowerCase().includes(queryHrfKecil) ||
         item.nama.includes(queryHrfKecil)
     );
-    const totalPages = Math.ceil(Number(keimanan.length) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(Number(belajar.length) / ITEMS_PER_PAGE);
     // console.log(totalPages);
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Gagal hitung data dari keimanan.");
+    throw new Error("Gagal hitung data dari belajar.");
   }
 }
 
-export async function getKeimananDataById(idKeimananUpdate) {
+export async function getBelajarDataById(idBelajarUpdate) {
   try {
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -111,16 +113,39 @@ export async function getKeimananDataById(idKeimananUpdate) {
     // Load informasi lembar kerja
     await doc.loadInfo();
 
-    const sheet = doc.sheetsById[SHEET_ID5]; // Misalnya, mengambil lembar kerja pertama
+    const sheet = doc.sheetsById[SHEET_ID6]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
     // console.log(dataFromSheet);
-    const keimananById = rows.filter(
-      (item) => item.id_keimanan === idKeimananUpdate
+    const belajarById = rows.filter(
+      (item) => item.id_belajar === idBelajarUpdate
     );
-    return keimananById;
+    return belajarById;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Gagal ambil data keimanan sesuai id");
+    throw new Error("Gagal ambil data belajar sesuai id");
+  }
+}
+
+export async function getAllKategoriBelajar() {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID7]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+    // const dataFromSheet = rows.map((item) => item.tanggal);
+    // console.log(dataFromSheet);
+    const datakategoris = rows.filter((item) => item);
+    return datakategoris;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from AllKategori belajar.");
   }
 }
