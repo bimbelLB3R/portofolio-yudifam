@@ -6,6 +6,7 @@ import Link from "next/link";
 import { gambarAnak } from "../fotoAnak/page";
 
 export default async function BakatTable({ query, currentPage }) {
+  // console.log(gambarAnak);
   const bakats = await getFilteredBakatData(query, currentPage);
   return (
     <div className="mt-6 flow-root">
@@ -21,19 +22,6 @@ export default async function BakatTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
-                        {/* <Image
-                          src={
-                            bakat.nama === "aqila"
-                              ? aqila
-                              : bakat.nama === "uwais"
-                              ? uwais
-                              : hasna
-                          }
-                          className="mr-2 rounded-full"
-                          width={28}
-                          height={28}
-                          alt="foto aqila"
-                        /> */}
                         <Image
                           src={gambarAnak[bakat.nama]} //mengambil value gambarAnak berdasar nilai bakat.nama
                           className="mr-2 rounded-full"

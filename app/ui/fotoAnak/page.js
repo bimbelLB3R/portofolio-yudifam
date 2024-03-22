@@ -1,4 +1,3 @@
-"use client";
 import { fetchDataAnaks } from "@/app/lib/data";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 
