@@ -2,16 +2,11 @@ import { getFilteredBakatData } from "@/app/lib/data";
 import Image from "next/image";
 import { UpdateBakat, DeleteBakat, GrafikBakat } from "./buttons";
 import BakatStatus from "./status";
-import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
-import aqila from "/app/ui/aqila.png";
-import uwais from "/app/ui/uwais.png";
-import hasna from "/app/ui/hasna.png";
 import Link from "next/link";
+import { gambarAnak } from "../fotoAnak/page";
 
 export default async function BakatTable({ query, currentPage }) {
-  // console.log(currentPage);
   const bakats = await getFilteredBakatData(query, currentPage);
-  // console.log(bakats);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -26,7 +21,7 @@ export default async function BakatTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
-                        <Image
+                        {/* <Image
                           src={
                             bakat.nama === "aqila"
                               ? aqila
@@ -38,6 +33,13 @@ export default async function BakatTable({ query, currentPage }) {
                           width={28}
                           height={28}
                           alt="foto aqila"
+                        /> */}
+                        <Image
+                          src={gambarAnak[bakat.nama]} //mengambil value gambarAnak berdasar nilai bakat.nama
+                          className="mr-2 rounded-full"
+                          width={28}
+                          height={28}
+                          alt={`foto ${bakat.nama}`}
                         />
                       </Link>
                       <div>
@@ -109,17 +111,11 @@ export default async function BakatTable({ query, currentPage }) {
                     <div className="flex items-center gap-3">
                       <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
                         <Image
-                          src={
-                            bakat.nama === "aqila"
-                              ? aqila
-                              : bakat.nama === "uwais"
-                              ? uwais
-                              : hasna
-                          }
-                          className="rounded-full"
+                          src={gambarAnak[bakat.nama]}
+                          className="mr-2 rounded-full"
                           width={28}
                           height={28}
-                          alt="foto aqila"
+                          alt={`foto ${bakat.nama}`}
                         />
                       </Link>
                       <p className="first-letter:uppercase">{bakat.nama}</p>

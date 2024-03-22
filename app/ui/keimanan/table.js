@@ -1,10 +1,7 @@
 import { getFilteredKeimananData } from "@/app/lib/dataKeimanan";
 import Image from "next/image";
 import { UpdateKeimanan, DeleteKeimanan } from "./buttons";
-
-import aqila from "/app/ui/aqila.png";
-import uwais from "/app/ui/uwais.png";
-import hasna from "/app/ui/hasna.png";
+import { gambarAnak } from "../fotoAnak/page";
 
 export default async function KeimananTable({ query, currentPage }) {
   // console.log(currentPage);
@@ -24,17 +21,11 @@ export default async function KeimananTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={
-                          iman.nama === "aqila"
-                            ? aqila
-                            : iman.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
+                        src={gambarAnak[iman.nama]} //mengambil value gambarAnak berdasar nilai iman.nama
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt="foto aqila"
+                        alt={`foto ${iman.nama}`}
                       />
                       <div>
                         <p className="first-letter:uppercase">{iman.nama}</p>
@@ -105,17 +96,11 @@ export default async function KeimananTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={
-                          iman.nama === "aqila"
-                            ? aqila
-                            : iman.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
-                        className="rounded-full"
+                        src={gambarAnak[iman.nama]} //mengambil value gambarAnak berdasar nilai iman.nama
+                        className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt="foto aqila"
+                        alt={`foto ${iman.nama}`}
                       />
                       <p className="first-letter:uppercase">{iman.nama}</p>
                     </div>

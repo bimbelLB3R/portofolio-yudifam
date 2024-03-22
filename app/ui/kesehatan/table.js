@@ -1,11 +1,7 @@
 import { getFilteredKesehatanData } from "@/app/lib/dataKesehatan";
 import Image from "next/image";
 import { UpdateKesehatan, DeleteKesehatan } from "./buttons";
-// import BakatStatus from "./status";
-import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
-import aqila from "/app/ui/aqila.png";
-import uwais from "/app/ui/uwais.png";
-import hasna from "/app/ui/hasna.png";
+import { gambarAnak } from "../fotoAnak/page";
 
 export default async function KesehatanTable({ query, currentPage }) {
   // console.log(currentPage);
@@ -25,17 +21,11 @@ export default async function KesehatanTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={
-                          sehat.nama === "aqila"
-                            ? aqila
-                            : sehat.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
+                        src={gambarAnak[sehat.nama]} //mengambil value gambarAnak berdasar nilai sehat.nama
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt="foto aqila"
+                        alt={`foto ${sehat.nama}`}
                       />
                       <div>
                         <p className="first-letter:uppercase">{sehat.nama}</p>
@@ -110,17 +100,11 @@ export default async function KesehatanTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={
-                          sehat.nama === "aqila"
-                            ? aqila
-                            : sehat.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
-                        className="rounded-full"
+                        src={gambarAnak[sehat.nama]} //mengambil value gambarAnak berdasar nilai sehat.nama
+                        className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt="foto aqila"
+                        alt={`foto ${sehat.nama}`}
                       />
                       <p className="first-letter:uppercase">{sehat.nama}</p>
                     </div>

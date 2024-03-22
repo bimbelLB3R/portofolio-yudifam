@@ -1,10 +1,7 @@
 import { getFilteredBelajarData } from "@/app/lib/dataBelajar";
 import Image from "next/image";
 import { UpdateBelajar, DeleteBelajar } from "./buttons";
-
-import aqila from "/app/ui/aqila.png";
-import uwais from "/app/ui/uwais.png";
-import hasna from "/app/ui/hasna.png";
+import { gambarAnak } from "../fotoAnak/page";
 
 export default async function BelajarTable({ query, currentPage }) {
   // console.log(currentPage);
@@ -24,17 +21,11 @@ export default async function BelajarTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={
-                          belajar.nama === "aqila"
-                            ? aqila
-                            : belajar.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
+                        src={gambarAnak[belajar.nama]} //mengambil value gambarAnak berdasar nilai belajar.nama
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt="foto aqila"
+                        alt={`foto ${belajar.nama}`}
                       />
                       <div>
                         <p className="first-letter:uppercase">{belajar.nama}</p>
@@ -105,17 +96,11 @@ export default async function BelajarTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={
-                          belajar.nama === "aqila"
-                            ? aqila
-                            : belajar.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
-                        className="rounded-full"
+                        src={gambarAnak[belajar.nama]} //mengambil value gambarAnak berdasar nilai belajar.nama
+                        className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt="foto aqila"
+                        alt={`foto ${belajar.nama}`}
                       />
                       <p className="first-letter:uppercase">{belajar.nama}</p>
                     </div>

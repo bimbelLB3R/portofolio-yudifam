@@ -45,6 +45,8 @@ export default function GrafikBakatForm({ detailBakatByNama }) {
       chartInstance.destroy(); // Destroy the existing chart
     }
 
+    const barThickness = totalData <= 2 ? 30 : 50; // Set minimum width for 1 or 2 data points
+
     chartInstance = new Chart(
       ctx,
       {
@@ -64,6 +66,7 @@ export default function GrafikBakatForm({ detailBakatByNama }) {
                 // Tambahkan warna lain jika diperlukan
               ],
               borderWidth: 1,
+              barThickness: barThickness, // Set the bar thickness
             },
           ],
         },
