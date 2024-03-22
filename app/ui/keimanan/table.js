@@ -1,9 +1,11 @@
+"use server";
 import { getFilteredKeimananData } from "@/app/lib/dataKeimanan";
 import Image from "next/image";
 import { UpdateKeimanan, DeleteKeimanan } from "./buttons";
 import { gambarAnak } from "../fotoAnak/page";
 
 export default async function KeimananTable({ query, currentPage }) {
+  const gambarAnakku = await gambarAnak();
   // console.log(currentPage);
   const keimanans = await getFilteredKeimananData(query, currentPage);
   // console.log(keimanans);
@@ -21,10 +23,10 @@ export default async function KeimananTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={gambarAnak[iman.nama]} //mengambil value gambarAnak berdasar nilai iman.nama
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
+                        src={gambarAnakku[iman.nama]} //mengambil value gambarAnak berdasar nilai iman.nama
+                        className="mr-2 rounded-full h-[28px] w-[28px]"
+                        width="auto"
+                        height="auto"
                         alt={`foto ${iman.nama}`}
                       />
                       <div>
@@ -96,10 +98,10 @@ export default async function KeimananTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={gambarAnak[iman.nama]} //mengambil value gambarAnak berdasar nilai iman.nama
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
+                        src={gambarAnakku[iman.nama]} //mengambil value gambarAnak berdasar nilai iman.nama
+                        className="mr-2 rounded-full h-[28px] w-[28px]"
+                        width="auto"
+                        height="auto"
                         alt={`foto ${iman.nama}`}
                       />
                       <p className="first-letter:uppercase">{iman.nama}</p>

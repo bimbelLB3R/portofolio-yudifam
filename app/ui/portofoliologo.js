@@ -11,8 +11,8 @@ export default function PortofolioLogo() {
         src={profilPic}
         alt="logoAqila"
         className="h-12 w-12 rotate-[15deg]"
-        width={48}
-        height={48}
+        width="auto"
+        height="auto"
       />
       <p className="text-[40px] sm:text-[30px]">Portofolio</p>
     </div>

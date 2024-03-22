@@ -1,3 +1,4 @@
+"use server";
 import { getFilteredBelajarData } from "@/app/lib/dataBelajar";
 import Image from "next/image";
 import { UpdateBelajar, DeleteBelajar } from "./buttons";
@@ -5,6 +6,7 @@ import { gambarAnak } from "../fotoAnak/page";
 
 export default async function BelajarTable({ query, currentPage }) {
   // console.log(currentPage);
+  const gambarAnakku = await gambarAnak();
   const belajars = await getFilteredBelajarData(query, currentPage);
   // console.log(belajars);
   return (
@@ -21,10 +23,10 @@ export default async function BelajarTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={gambarAnak[belajar.nama]} //mengambil value gambarAnak berdasar nilai belajar.nama
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
+                        src={gambarAnakku[belajar.nama]} //mengambil value gambarAnak berdasar nilai belajar.nama
+                        className="mr-2 rounded-full h-[28px] w-[28px]"
+                        width="auto"
+                        height="auto"
                         alt={`foto ${belajar.nama}`}
                       />
                       <div>
@@ -96,10 +98,10 @@ export default async function BelajarTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={gambarAnak[belajar.nama]} //mengambil value gambarAnak berdasar nilai belajar.nama
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
+                        src={gambarAnakku[belajar.nama]} //mengambil value gambarAnak berdasar nilai belajar.nama
+                        className="mr-2 rounded-full h-[28px] w-[28px]"
+                        width="auto"
+                        height="auto"
                         alt={`foto ${belajar.nama}`}
                       />
                       <p className="first-letter:uppercase">{belajar.nama}</p>

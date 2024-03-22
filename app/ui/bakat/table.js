@@ -1,3 +1,4 @@
+"use server";
 import { getFilteredBakatData } from "@/app/lib/data";
 import Image from "next/image";
 import { UpdateBakat, DeleteBakat, GrafikBakat } from "./buttons";
@@ -6,7 +7,8 @@ import Link from "next/link";
 import { gambarAnak } from "../fotoAnak/page";
 
 export default async function BakatTable({ query, currentPage }) {
-  // console.log(gambarAnak);
+  const gambarAnakku = await gambarAnak();
+  // console.log(gambarAnakku);
   const bakats = await getFilteredBakatData(query, currentPage);
   return (
     <div className="mt-6 flow-root">
@@ -23,12 +25,13 @@ export default async function BakatTable({ query, currentPage }) {
                     <div className="mb-2 flex items-center">
                       <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
                         <Image
-                          src={gambarAnak[bakat.nama]} //mengambil value gambarAnak berdasar nilai bakat.nama
-                          className="mr-2 rounded-full"
-                          width={28}
-                          height={28}
+                          src={gambarAnakku[bakat.nama]} //mengambil value gambarAnakku berdasar nilai bakat.nama
+                          className="mr-2 rounded-full w-[28px] h-[28px]"
+                          width="auto"
+                          height="auto"
                           alt={`foto ${bakat.nama}`}
                         />
+                        {/* {console.log(gambarAnakku[bakat.nama])} */}
                       </Link>
                       <div>
                         <p className="first-letter:uppercase">{bakat.nama}</p>
@@ -99,10 +102,10 @@ export default async function BakatTable({ query, currentPage }) {
                     <div className="flex items-center gap-3">
                       <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
                         <Image
-                          src={gambarAnak[bakat.nama]}
-                          className="mr-2 rounded-full"
-                          width={28}
-                          height={28}
+                          src={gambarAnakku[bakat.nama]}
+                          className="mr-2 rounded-full w-[28px] h-[28px]"
+                          width="auto"
+                          height="auto"
                           alt={`foto ${bakat.nama}`}
                         />
                       </Link>

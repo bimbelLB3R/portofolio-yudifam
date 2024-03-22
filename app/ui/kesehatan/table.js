@@ -1,9 +1,11 @@
+"use server";
 import { getFilteredKesehatanData } from "@/app/lib/dataKesehatan";
 import Image from "next/image";
 import { UpdateKesehatan, DeleteKesehatan } from "./buttons";
 import { gambarAnak } from "../fotoAnak/page";
 
 export default async function KesehatanTable({ query, currentPage }) {
+  const gambarAnakku = await gambarAnak();
   // console.log(currentPage);
   const kesehatans = await getFilteredKesehatanData(query, currentPage);
   // console.log(kesehatans);
@@ -21,10 +23,10 @@ export default async function KesehatanTable({ query, currentPage }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={gambarAnak[sehat.nama]} //mengambil value gambarAnak berdasar nilai sehat.nama
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
+                        src={gambarAnakku[sehat.nama]} //mengambil value gambarAnak berdasar nilai sehat.nama
+                        className="mr-2 rounded-full h-[28px] w-[28px]"
+                        width="auto"
+                        height="auto"
                         alt={`foto ${sehat.nama}`}
                       />
                       <div>
@@ -100,10 +102,10 @@ export default async function KesehatanTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={gambarAnak[sehat.nama]} //mengambil value gambarAnak berdasar nilai sehat.nama
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
+                        src={gambarAnakku[sehat.nama]} //mengambil value gambarAnak berdasar nilai sehat.nama
+                        className="mr-2 rounded-full h-[28px] w-[28px]"
+                        width="auto"
+                        height="auto"
                         alt={`foto ${sehat.nama}`}
                       />
                       <p className="first-letter:uppercase">{sehat.nama}</p>
