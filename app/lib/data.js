@@ -221,6 +221,29 @@ export async function getBakatDataById(idBakatUpdate) {
   }
 }
 
+export async function getBakatDataByNama(namaAnak) {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+    // const dataFromSheet = rows.map((item) => item.tanggal);
+    // console.log(dataFromSheet);
+    const bakatByNama = rows.filter((item) => item.nama === namaAnak);
+    return bakatByNama;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from bakat by name.");
+  }
+}
+
 export async function getAllBakat() {
   try {
     // Autentikasi dengan kredensial

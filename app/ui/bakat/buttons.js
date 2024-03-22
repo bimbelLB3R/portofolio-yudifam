@@ -1,5 +1,10 @@
 import { deleteBakatById } from "@/app/lib/actions";
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+  ChartBarIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 export function CreateBakat() {
@@ -14,6 +19,17 @@ export function CreateBakat() {
   );
 }
 
+export function GrafikBakat({ id }) {
+  // console.log(`idupdate=${id}`);
+  return (
+    <Link
+      href={`/dashboard/bakat/${id}/grafik`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <ChartBarIcon className="w-5" />
+    </Link>
+  );
+}
 export function UpdateBakat({ id }) {
   // console.log(`idupdate=${id}`);
   return (

@@ -1,11 +1,12 @@
 import { getFilteredBakatData } from "@/app/lib/data";
 import Image from "next/image";
-import { UpdateBakat, DeleteBakat } from "./buttons";
+import { UpdateBakat, DeleteBakat, GrafikBakat } from "./buttons";
 import BakatStatus from "./status";
 import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
 import aqila from "/app/ui/aqila.png";
 import uwais from "/app/ui/uwais.png";
 import hasna from "/app/ui/hasna.png";
+import Link from "next/link";
 
 export default async function BakatTable({ query, currentPage }) {
   // console.log(currentPage);
@@ -24,19 +25,21 @@ export default async function BakatTable({ query, currentPage }) {
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <Image
-                        src={
-                          bakat.nama === "aqila"
-                            ? aqila
-                            : bakat.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
-                        alt="foto aqila"
-                      />
+                      <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
+                        <Image
+                          src={
+                            bakat.nama === "aqila"
+                              ? aqila
+                              : bakat.nama === "uwais"
+                              ? uwais
+                              : hasna
+                          }
+                          className="mr-2 rounded-full"
+                          width={28}
+                          height={28}
+                          alt="foto aqila"
+                        />
+                      </Link>
                       <div>
                         <p className="first-letter:uppercase">{bakat.nama}</p>
 
@@ -52,6 +55,9 @@ export default async function BakatTable({ query, currentPage }) {
                   <BakatStatus status={bakat.status} />
                 </div>
                 <div className="flex justify-end gap-2 p-1">
+                  <div className="flex items-center justify-center">
+                    <GrafikBakat id={bakat.nama} />
+                  </div>
                   <div className="flex items-center justify-center">
                     <UpdateBakat id={bakat.idBakat} />
                   </div>
@@ -101,19 +107,21 @@ export default async function BakatTable({ query, currentPage }) {
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={
-                          bakat.nama === "aqila"
-                            ? aqila
-                            : bakat.nama === "uwais"
-                            ? uwais
-                            : hasna
-                        }
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt="foto aqila"
-                      />
+                      <Link href={`/dashboard/bakat/${bakat.nama}/grafik`}>
+                        <Image
+                          src={
+                            bakat.nama === "aqila"
+                              ? aqila
+                              : bakat.nama === "uwais"
+                              ? uwais
+                              : hasna
+                          }
+                          className="rounded-full"
+                          width={28}
+                          height={28}
+                          alt="foto aqila"
+                        />
+                      </Link>
                       <p className="first-letter:uppercase">{bakat.nama}</p>
                     </div>
                   </td>
@@ -129,6 +137,9 @@ export default async function BakatTable({ query, currentPage }) {
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
+                      <div className="flex items-center justify-center">
+                        <GrafikBakat id={bakat.nama} />
+                      </div>
                       <div className="flex items-center justify-center">
                         <UpdateBakat id={bakat.idBakat} />
                       </div>
