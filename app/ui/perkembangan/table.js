@@ -6,9 +6,67 @@ import { UpdatePerkembangan, DeletePerkembangan } from "./buttons";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
 
+// Fungsi untuk menghitung usia dari tanggal lahir
+function hitungUsia(tanggalLahir) {
+  const hariIni = new Date();
+  const lahir = new Date(tanggalLahir);
+
+  let tahun = hariIni.getFullYear() - lahir.getFullYear();
+  let bulan = hariIni.getMonth() - lahir.getMonth();
+  let hari = hariIni.getDate() - lahir.getDate();
+
+  // Koreksi jika bulan atau hari hasil pengurangan negatif
+  if (bulan < 0 || (bulan === 0 && hari < 0)) {
+    tahun--;
+    bulan += 12;
+    // Menghitung jumlah hari dalam bulan lalu
+    const bulanLalu = hariIni.getMonth() === 0 ? 11 : hariIni.getMonth() - 1;
+    const hariBulanLalu = new Date(
+      hariIni.getFullYear(),
+      bulanLalu + 1,
+      0
+    ).getDate();
+    hari += hariBulanLalu;
+  }
+
+  // Periksa jika jumlah hari lebih dari jumlah hari dalam bulan
+  const bulanIni = hariIni.getMonth();
+  const hariIniBulan = new Date(
+    hariIni.getFullYear(),
+    bulanIni + 1,
+    0
+  ).getDate();
+  if (hari > hariIniBulan) {
+    hari -= hariIniBulan;
+    bulan++;
+  }
+
+  return { tahun, bulan, hari };
+}
+
 export default async function PerkembanganTable({ query, currentPage }) {
   const dataanaks = await fetchDataAnaks();
   const fotoanaks = dataanaks.map((item) => item.foto);
+  const tanggal_lahir_array = dataanaks.map((item) => item.tanggal_lahir);
+  const tanggal_lahir = tanggal_lahir_array.reduce((acc, curr, index) => {
+    acc[dataanaks[index].nama] = curr;
+    return acc;
+  }, {});
+  // console.log(tanggal_lahir);
+
+  // Objek untuk menyimpan usia setiap anak
+  const usia_anak = {};
+
+  // Menghitung usia setiap anak
+  for (const [nama, tanggal] of Object.entries(tanggal_lahir)) {
+    usia_anak[nama] = hitungUsia(tanggal);
+  }
+
+  // Fungsi untuk menampilkan usia dalam format lengkap
+  function formatUsia(usia) {
+    return `${usia.tahun} tahun, ${usia.bulan} bulan, dan ${usia.hari} hari`;
+  }
+
   const gambarAnakku = (
     await Promise.all(
       fotoanaks.map(async (namaFile) => {
@@ -67,6 +125,9 @@ export default async function PerkembanganTable({ query, currentPage }) {
                     </div>
                     <p className="text-sm text-gray-500 uppercase">
                       {perkembangan.jenis_perkembangan}
+                    </p>
+                    <p className="text-[8px] text-gray-500 lowercase">
+                      Usia Anak ({formatUsia(usia_anak[perkembangan.nama])})
                     </p>
                   </div>
                   <div className="flex justify-end gap-2 p-1">
