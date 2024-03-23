@@ -2,11 +2,37 @@
 import { getFilteredBelajarData } from "@/app/lib/dataBelajar";
 import Image from "next/image";
 import { UpdateBelajar, DeleteBelajar } from "./buttons";
-import { gambarAnak } from "../fotoAnak/page";
+// import { gambarAnak } from "../fotoAnak/page";
+import fotoDefault from "/app/ui/fotoAnak/default.png";
+import { fetchDataAnaks } from "@/app/lib/data";
 
 export default async function BelajarTable({ query, currentPage }) {
-  // console.log(currentPage);
-  const gambarAnakku = await gambarAnak();
+  const dataanaks = await fetchDataAnaks();
+  const fotoanaks = dataanaks.map((item) => item.foto);
+  const gambarAnakku = (
+    await Promise.all(
+      fotoanaks.map(async (namaFile) => {
+        // Ambil nama anak dari nama file (tanpa ekstensi)
+        const namaAnak = namaFile.replace(".png", "");
+        try {
+          // Import gambar anak secara dinamis
+
+          const gambar = await import(`/app/ui/fotoAnak/${namaFile}`);
+          // Kembalikan pasangan nama anak dan gambar
+          return [namaAnak, gambar.default];
+        } catch (error) {
+          // Jika foto anak tidak tersedia, gunakan UserCircleIcon sebagai gantinya
+          return [namaAnak, fotoDefault];
+        }
+      })
+    )
+  ).reduce((acc, [namaAnak, gambar]) => {
+    // Tambahkan pasangan nama anak dan gambar ke objek akumulator
+    acc[namaAnak] = gambar;
+    return acc;
+  }, {});
+
+  // const gambarAnakku = await gambarAnak();
   const belajars = await getFilteredBelajarData(query, currentPage);
   // console.log(belajars);
   return (
