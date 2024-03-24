@@ -1,17 +1,16 @@
 "use client";
+
 import {
-  UserGroupIcon,
-  HomeIcon,
-  DocumentDuplicateIcon,
-  AcademicCapIcon,
-  BookOpenIcon,
-  SunIcon,
-  FireIcon,
-  EyeDropperIcon,
-  HeartIcon,
-  StarIcon,
-  FaceSmileIcon,
-} from "@heroicons/react/24/outline";
+  GenderMale,
+  GraphUpArrow,
+  SignpostSplit,
+  ThermometerHalf,
+  Ubuntu,
+  HeartPulse,
+  Book,
+  BatteryCharging,
+  HouseDoor,
+} from "react-bootstrap-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -19,42 +18,42 @@ import clsx from "clsx";
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Home", href: "/dashboard", icon: HouseDoor },
   {
     name: "Keimanan",
     href: "/dashboard/keimanan",
-    icon: FireIcon,
+    icon: BatteryCharging,
   },
   {
     name: "Bakat dan Kepemimpinan",
     href: "/dashboard/bakat",
-    icon: AcademicCapIcon,
+    icon: SignpostSplit,
   },
-  { name: "Belajar", href: "/dashboard/belajar", icon: BookOpenIcon },
+  { name: "Belajar", href: "/dashboard/belajar", icon: Book },
   {
     name: "Perkembangan",
     href: "/dashboard/perkembangan",
-    icon: SunIcon,
+    icon: GraphUpArrow,
   },
   {
     name: "Kesehatan",
     href: "/dashboard/kesehatan",
-    icon: EyeDropperIcon,
+    icon: ThermometerHalf,
   },
   {
     name: "Seksualitas dan Cinta",
     href: "/dashboard/seksualitas",
-    icon: HeartIcon,
+    icon: GenderMale,
   },
   {
     name: "Estetika dan Bahasa",
     href: "/dashboard/estetika",
-    icon: StarIcon,
+    icon: HeartPulse,
   },
   {
     name: "Individualitas dan Sosialitas",
     href: "/dashboard/individualitas",
-    icon: FaceSmileIcon,
+    icon: Ubuntu,
   },
 ];
 
@@ -75,7 +74,7 @@ export default function NavLinks() {
               }
             )}
           >
-            <LinkIcon className="w-6" />
+            <LinkIcon className="w-6 text-xl" />
             <p className="hidden md:block">{link.name}</p>
           </Link>
         );
