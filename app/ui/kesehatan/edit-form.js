@@ -42,7 +42,7 @@ export default function EditKesehatanForm({ dataanaks, kesehatanById }) {
               id="namaAnak"
               name="namaAnak"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.nama}
+              defaultValue={dataWillUpdate.nama[0]}
               required
             >
               <option value="" disabled>
@@ -73,7 +73,7 @@ export default function EditKesehatanForm({ dataanaks, kesehatanById }) {
                 name="jenis_penyakit"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.jenis_penyakit}
+                defaultValue={dataWillUpdate.jenis_penyakit[0]}
                 placeholder="Tulis nama jenis_penyakit"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -93,7 +93,7 @@ export default function EditKesehatanForm({ dataanaks, kesehatanById }) {
                 id="penyebab"
                 name="penyebab"
                 placeholder="Ceritakan apa yang terjadi"
-                defaultValue={dataWillUpdate.penyebab}
+                defaultValue={dataWillUpdate.penyebab[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>
@@ -112,7 +112,7 @@ export default function EditKesehatanForm({ dataanaks, kesehatanById }) {
                 id="tindakan"
                 name="tindakan"
                 placeholder="Ceritakan apa yang sudah dilakukan"
-                defaultValue={dataWillUpdate.tindakan}
+                defaultValue={dataWillUpdate.tindakan[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>

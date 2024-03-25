@@ -32,7 +32,7 @@ export default function EditKeimananForm({ dataanaks, keimananById }) {
               id="namaAnak"
               name="namaAnak"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.nama}
+              defaultValue={dataWillUpdate.nama[0]}
               required
             >
               <option value="" disabled>
@@ -63,7 +63,7 @@ export default function EditKeimananForm({ dataanaks, keimananById }) {
                 name="jenis_keimanan"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.jenis_keimanan}
+                defaultValue={dataWillUpdate.jenis_keimanan[0]}
                 placeholder="Misal Sholat dll"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -87,7 +87,7 @@ export default function EditKeimananForm({ dataanaks, keimananById }) {
                 name="aktivitas_keimanan"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.aktivitas_keimanan}
+                defaultValue={dataWillUpdate.aktivitas_keimanan[0]}
                 placeholder="Misal Melakukan sholat dhuha"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -111,7 +111,7 @@ export default function EditKeimananForm({ dataanaks, keimananById }) {
                 id="uraian_keimanan"
                 name="uraian_keimanan"
                 placeholder="Ceritakan apa yang dilakukan"
-                defaultValue={dataWillUpdate.uraian_keimanan}
+                defaultValue={dataWillUpdate.uraian_keimanan[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>

@@ -51,7 +51,7 @@ export default function EditSeksualitasForm({ dataanaks, seksualitasById }) {
               id="namaAnak"
               name="namaAnak"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.nama}
+              defaultValue={dataWillUpdate.nama[0]}
               required
             >
               <option value="" disabled>
@@ -82,7 +82,7 @@ export default function EditSeksualitasForm({ dataanaks, seksualitasById }) {
                 name="jenis_seksualitas"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.jenis_seksualitas}
+                defaultValue={dataWillUpdate.jenis_seksualitas[0]}
                 placeholder="isi aktivitas seksualitas"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -106,7 +106,7 @@ export default function EditSeksualitasForm({ dataanaks, seksualitasById }) {
                 name="aktivitas_seksualitas"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.aktivitas_seksualitas}
+                defaultValue={dataWillUpdate.aktivitas_seksualitas[0]}
                 placeholder="isi aktivitas seksualitas"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -129,7 +129,7 @@ export default function EditSeksualitasForm({ dataanaks, seksualitasById }) {
                 id="uraian_seksualitas"
                 name="uraian_seksualitas"
                 placeholder="Ceritakan apa yang sudah dilakukan"
-                defaultValue={dataWillUpdate.uraian_seksualitas}
+                defaultValue={dataWillUpdate.uraian_seksualitas[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>

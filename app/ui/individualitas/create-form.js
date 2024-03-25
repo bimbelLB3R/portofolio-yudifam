@@ -1,47 +1,11 @@
-import {
-  UserCircleIcon,
-  PencilSquareIcon,
-  AcademicCapIcon,
-} from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 import Button from "../button";
-import { updatePerkembangan } from "@/app/lib/actionsPerkembangan";
+import { createIndividualitas } from "@/app/lib/actionsIndividualitas";
 
-export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
-  //datakategoris blm dikirim
-  const idPerkembanganUpdate = perkembanganById.map(
-    (item) => item.id_perkembangan
-  );
-  const tanggalPerkembanganUpdate = perkembanganById.map(
-    (item) => item.created_at
-  );
-  const idPerkembanganToUpdate = idPerkembanganUpdate[0];
-  const tanggalPerkembanganToUpdate = tanggalPerkembanganUpdate[0];
-
-  const dataWillUpdate = {
-    nama: perkembanganById.map((item) => item.nama),
-    jenis_perkembangan: perkembanganById.map((item) => item.jenis_perkembangan),
-    aktivitas_perkembangan: perkembanganById.map(
-      (item) => item.aktivitas_perkembangan
-    ),
-    uraian_perkembangan: perkembanganById.map(
-      (item) => item.uraian_perkembangan
-    ),
-  };
-  // const updateBakatWIthId = updateBakat.bind(null, idBakatToUpdate);
-
+export default function Form({ dataanaks }) {
   return (
-    <form action={updatePerkembangan}>
-      <input
-        type="hidden"
-        name="id_perkembangan"
-        value={idPerkembanganToUpdate}
-      />
-      <input
-        type="hidden"
-        name="created_at"
-        value={tanggalPerkembanganToUpdate}
-      />
+    <form action={createIndividualitas}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -53,7 +17,7 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
               id="namaAnak"
               name="namaAnak"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.nama[0]}
+              defaultValue=""
               required
             >
               <option value="" disabled>
@@ -72,7 +36,7 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
         {/* Kategori*/}
         <div className="mb-4">
           <label
-            htmlFor="jenis_perkembangan"
+            htmlFor="jenis_individualitas"
             className="mb-2 block text-sm font-medium"
           >
             Kategori
@@ -80,12 +44,11 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="jenis_perkembangan"
-                name="jenis_perkembangan"
+                id="jenis_individualitas"
+                name="jenis_individualitas"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.jenis_perkembangan[0]}
-                placeholder="isi aktivitas perkembangan"
+                placeholder="isi kategori"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
@@ -96,7 +59,7 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
         {/* aktivitas */}
         <div className="mb-4">
           <label
-            htmlFor="aktivitas_perkembangan"
+            htmlFor="aktivitas_individualitas"
             className="mb-2 block text-sm font-medium"
           >
             Aktivitas
@@ -104,12 +67,11 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="aktivitas_perkembangan"
-                name="aktivitas_perkembangan"
+                id="aktivitas_individualitas"
+                name="aktivitas_individualitas"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.aktivitas_perkembangan[0]}
-                placeholder="isi aktivitas perkembangan"
+                placeholder="isi aktivitas anak"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
@@ -120,7 +82,7 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
         {/* tindakan*/}
         <div className="mb-4">
           <label
-            htmlFor="uraian_perkembangan"
+            htmlFor="uraian_individualitas"
             className="mb-2 block text-sm font-medium"
           >
             Uraian
@@ -128,10 +90,9 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <textarea
-                id="uraian_perkembangan"
-                name="uraian_perkembangan"
+                id="uraian_individualitas"
+                name="uraian_individualitas"
                 placeholder="Ceritakan apa yang sudah dilakukan"
-                defaultValue={dataWillUpdate.uraian_perkembangan[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>
@@ -141,12 +102,12 @@ export default function EditPerkembanganForm({ dataanaks, perkembanganById }) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/perkembangan"
+          href="/dashboard/individualitas"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Data </Button>
+        <Button type="submit">Tambah Data </Button>
       </div>
     </form>
   );

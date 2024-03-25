@@ -41,7 +41,7 @@ export default function EditBelajarForm({
               id="namaAnak"
               name="namaAnak"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.nama}
+              defaultValue={dataWillUpdate.nama[0]}
               required
             >
               <option value="" disabled>
@@ -70,7 +70,7 @@ export default function EditBelajarForm({
               id="jenis_belajar"
               name="jenis_belajar"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.jenis_belajar}
+              defaultValue={dataWillUpdate.jenis_belajar[0]}
               required
             >
               <option value="" disabled>
@@ -101,7 +101,7 @@ export default function EditBelajarForm({
                 name="aktivitas_belajar"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.aktivitas_belajar}
+                defaultValue={dataWillUpdate.aktivitas_belajar[0]}
                 placeholder="isi aktivitas belajar"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -124,7 +124,7 @@ export default function EditBelajarForm({
                 id="uraian_belajar"
                 name="uraian_belajar"
                 placeholder="Ceritakan apa yang sudah dilakukan"
-                defaultValue={dataWillUpdate.uraian_belajar}
+                defaultValue={dataWillUpdate.uraian_belajar[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>

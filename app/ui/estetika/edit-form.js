@@ -37,7 +37,7 @@ export default function EditEstetikaForm({ dataanaks, estetikaById }) {
               id="namaAnak"
               name="namaAnak"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={dataWillUpdate.nama}
+              defaultValue={dataWillUpdate.nama[0]}
               required
             >
               <option value="" disabled>
@@ -68,7 +68,7 @@ export default function EditEstetikaForm({ dataanaks, estetikaById }) {
                 name="jenis_estetika"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.jenis_estetika}
+                defaultValue={dataWillUpdate.jenis_estetika[0]}
                 placeholder="isi aktivitas estetika"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -92,7 +92,7 @@ export default function EditEstetikaForm({ dataanaks, estetikaById }) {
                 name="aktivitas_estetika"
                 type="text"
                 step="0.01"
-                defaultValue={dataWillUpdate.aktivitas_estetika}
+                defaultValue={dataWillUpdate.aktivitas_estetika[0]}
                 placeholder="isi aktivitas estetika"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
@@ -115,7 +115,7 @@ export default function EditEstetikaForm({ dataanaks, estetikaById }) {
                 id="uraian_estetika"
                 name="uraian_estetika"
                 placeholder="Ceritakan apa yang sudah dilakukan"
-                defaultValue={dataWillUpdate.uraian_estetika}
+                defaultValue={dataWillUpdate.uraian_estetika[0]}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               ></textarea>
