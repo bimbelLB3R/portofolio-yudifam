@@ -20,6 +20,8 @@ export async function createInvoice(formData) {
     idBakat: idBakat,
     status: formData.get("status"),
     tgl_update: "",
+    dominan: formData.get("dominan"),
+    observer: formData.get("observer"),
   };
   try {
     await doc.useServiceAccountAuth({
@@ -55,6 +57,8 @@ export async function updateBakat(formData) {
     idBakat: id_Bakat,
     status: formData.get("status"),
     tgl_update: date,
+    dominan: formData.get("dominan"),
+    observer: formData.get("observer"),
   };
   try {
     await doc.useServiceAccountAuth({
@@ -76,6 +80,8 @@ export async function updateBakat(formData) {
       rowToUpdate.idBakat = rawFormData.idBakat;
       rowToUpdate.status = rawFormData.status;
       rowToUpdate.tgl_update = rawFormData.tgl_update;
+      rowToUpdate.dominan = rawFormData.dominan;
+      rowToUpdate.observer = rawFormData.observer;
       await rowToUpdate.save();
     }
   } catch (error) {

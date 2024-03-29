@@ -1,14 +1,21 @@
 import EditBakatForm from "@/app/ui/bakat/edit-form";
 import Breadcrumbs from "@/app/ui/bakat/bread-crumbs";
-import { getBakatDataById, fetchDataAnaks, getAllBakat } from "@/app/lib/data";
+import {
+  getBakatDataById,
+  fetchDataAnaks,
+  getAllBakat,
+  fetchDataObservers,
+} from "@/app/lib/data";
 
 export default async function Page({ params }) {
   const id = params.idBakat;
-  const [bakatById, dataanaks, allJenisBakats] = await Promise.all([
-    getBakatDataById(id),
-    fetchDataAnaks(),
-    getAllBakat(),
-  ]);
+  const [bakatById, dataanaks, allJenisBakats, dataobservers] =
+    await Promise.all([
+      getBakatDataById(id),
+      fetchDataAnaks(),
+      getAllBakat(),
+      fetchDataObservers(),
+    ]);
   // console.log(dataanaks);
   return (
     <main>
@@ -26,6 +33,7 @@ export default async function Page({ params }) {
         bakatById={bakatById}
         dataanaks={dataanaks}
         allJenisBakats={allJenisBakats}
+        dataobservers={dataobservers}
       />
     </main>
   );

@@ -30,6 +30,20 @@ export function GrafikBakat({ id }) {
     </Link>
   );
 }
+
+export function DefinisiBakat({ id }) {
+  //id berisi jenis bakat
+  // console.log(`idupdate=${id}`);
+  return (
+    <Link
+      href={`/dashboard/bakat/${id}/definisi`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <p className="text-sm text-gray-500 uppercase">{id}</p>
+    </Link>
+  );
+}
+
 export function UpdateBakat({ id }) {
   // console.log(`idupdate=${id}`);
   return (

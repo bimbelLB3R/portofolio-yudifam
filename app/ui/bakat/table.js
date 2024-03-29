@@ -1,13 +1,19 @@
 "use server";
 import { getFilteredBakatData } from "@/app/lib/data";
 import Image from "next/image";
-import { UpdateBakat, DeleteBakat, GrafikBakat } from "./buttons";
+import {
+  UpdateBakat,
+  DeleteBakat,
+  GrafikBakat,
+  DefinisiBakat,
+} from "./buttons";
 import BakatStatus from "./status";
 import Link from "next/link";
 // import { gambarAnak } from "../fotoAnak/page";
 
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
+import BakatDominan from "./dominan";
 
 export default async function BakatTable({ query, currentPage }) {
   const dataanaks = await fetchDataAnaks();
@@ -68,11 +74,17 @@ export default async function BakatTable({ query, currentPage }) {
                         </p>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-500 uppercase">
+                    {/* <p className="text-sm text-gray-500 uppercase">
                       {bakat.bakat}
-                    </p>
+                    </p> */}
+                    <div className="flex items-center justify-center">
+                      <DefinisiBakat id={bakat.bakat} />
+                    </div>
                   </div>
-                  <BakatStatus status={bakat.status} />
+                  <div className="grid grid-cols-1 space-y-1">
+                    <BakatStatus status={bakat.status} />
+                    <BakatDominan dominan={bakat.dominan} />
+                  </div>
                 </div>
                 <div className="flex justify-end gap-2 p-1">
                   <div className="flex items-center justify-center">
@@ -89,6 +101,9 @@ export default async function BakatTable({ query, currentPage }) {
                   <div>
                     <p className="text-sm font-medium uppercase">
                       {bakat.aktivitas}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      Observed by {bakat.observer}
                     </p>
                     <p className="text-sm">{bakat.cerita}</p>
                   </div>
@@ -143,11 +158,26 @@ export default async function BakatTable({ query, currentPage }) {
                     {bakat.tanggal}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {bakat.aktivitas}
+                    <div className="grid grid-cols-1 space-y-1">
+                      <p>{bakat.aktivitas}</p>
+                      <p className="text-xs text-gray-400">
+                        by {bakat.observer}
+                      </p>
+                    </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">{bakat.bakat}</td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    <BakatStatus status={bakat.status} />
+                    <Link
+                      href={`/dashboard/bakat/${bakat.bakat}/definisi`}
+                      className="rounded-md border p-2 hover:bg-gray-100"
+                    >
+                      {bakat.bakat}
+                    </Link>
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <p className="grid grid-cols-1 space-y-1">
+                      <BakatStatus status={bakat.status} />
+                      <BakatDominan dominan={bakat.dominan} />
+                    </p>
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">

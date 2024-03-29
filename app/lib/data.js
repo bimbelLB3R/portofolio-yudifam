@@ -4,6 +4,7 @@ const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
 const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
 const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
+const SHEET_ID12 = process.env.NEXT_PUBLIC_SHEET_ID_DATAOBSERVER;
 
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
@@ -288,6 +289,27 @@ export async function fetchDataAnaks() {
   }
 }
 
+export async function fetchDataObservers() {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID12]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+
+    return rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from sheet 2.");
+  }
+}
+
 export async function fetchNamaBakats() {
   try {
     // Autentikasi dengan kredensial
@@ -306,5 +328,31 @@ export async function fetchNamaBakats() {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch data from sheet 2.");
+  }
+}
+
+// ambil data definisi bakat
+export async function getBakatDataByDefinisi(jenisBakat) {
+  try {
+    // Autentikasi dengan kredensial
+    await doc.useServiceAccountAuth({
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    });
+
+    // Load informasi lembar kerja
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
+    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+    // const dataFromSheet = rows.map((item) => item.tanggal);
+    // console.log(dataFromSheet);
+    const bakatByDefinisi = rows.filter(
+      (item) => item.jenisBakat === jenisBakat
+    );
+    return bakatByDefinisi;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data from bakat by definisi.");
   }
 }
