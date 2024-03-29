@@ -234,11 +234,42 @@ export async function getBakatDataByNama(namaAnak) {
     await doc.loadInfo();
 
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
+    const sheet2 = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+    const rows2 = await sheet2.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
     // console.log(dataFromSheet);
-    const bakatByNama = rows.filter((item) => item.nama === namaAnak);
-    return bakatByNama;
+    const bakatByNama = rows.filter(
+      (item) => item.nama === namaAnak && item.dominan === "kekuatan"
+    );
+    const bakatByNamaLemah = rows.filter(
+      (item) => item.nama === namaAnak && item.dominan === "kelemahan"
+    );
+
+    const dataRows = rows.map((item) => item.bakat);
+    const dataRows2 = rows2.map((item) => [
+      { jenisBakat: item.jenisBakat, kelompok: item.kelompok },
+    ]);
+    // Membuat objek untuk memetakan jenisBakat dengan kelompoknya
+    const mappingJenisBakat = {};
+    dataRows2.forEach((item) => {
+      const jenisBakat = item[0].jenisBakat;
+      const kelompok = item[0].kelompok;
+      mappingJenisBakat[jenisBakat] = kelompok;
+    });
+
+    // Mendapatkan kelompok untuk setiap bakat dari rows
+    const kelompokBakat = dataRows.map((bakat) => {
+      return mappingJenisBakat[bakat] || "";
+    });
+
+    // console.log(kelompokBakat);
+
+    return {
+      kekuatan: bakatByNama,
+      kelemahan: bakatByNamaLemah,
+      klusterBakat: kelompokBakat,
+    };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch data from bakat by name.");
