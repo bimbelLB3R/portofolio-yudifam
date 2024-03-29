@@ -246,7 +246,11 @@ export async function getBakatDataByNama(namaAnak) {
       (item) => item.nama === namaAnak && item.dominan === "kelemahan"
     );
 
-    const dataRows = rows.map((item) => item.bakat);
+    const dataAnak = rows.filter(
+      (item) => item.nama === namaAnak && item.dominan === "kekuatan"
+    );
+    const dataRows = dataAnak.map((item) => item.bakat);
+    console.log(dataRows);
     const dataRows2 = rows2.map((item) => [
       { jenisBakat: item.jenisBakat, kelompok: item.kelompok },
     ]);
