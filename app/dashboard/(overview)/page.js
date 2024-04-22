@@ -3,8 +3,16 @@ import { inter } from "@/app/ui/fonts";
 import { Suspense } from "react";
 import { CardsSkeleton } from "@/app/ui/skeletons";
 import { CardWrapper } from "@/app/ui/dashboard/cards";
+import { signIn, auth } from "@/app/lib/auth";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Page() {
+  const session = await auth();
+  // console.log(session);
+  // if (!session) {
+  //   redirect("/api/auth/signin");
+  // }
   // export default function Page() {
   // const newRow = {
   //   tanggal: "2024-03-17",
@@ -17,7 +25,16 @@ export default async function Page() {
   // await updateDataSheet(newRow);
   return (
     <>
-      <p className={`text-center ${inter.className}`}>HOME</p>
+      {session ? (
+        `Selamat Datang ${session.user.name}`
+      ) : (
+        <Link
+          href={"/api/auth/signin"}
+          className={`text-center ${inter.className}`}
+        >
+          Login With Google
+        </Link>
+      )}
       {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />

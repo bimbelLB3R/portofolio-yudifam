@@ -17,6 +17,7 @@ export default function GrafikBakatFormKlusterBakat({ klusterBakat }) {
   for (const key in countData) {
     percentages[key] = (countData[key] / totalData) * 100;
   }
+  // console.log(percentages);
   // Mengurutkan data persentase
   const sortedPercentages = Object.entries(percentages).sort(
     ([, a], [, b]) => b - a
