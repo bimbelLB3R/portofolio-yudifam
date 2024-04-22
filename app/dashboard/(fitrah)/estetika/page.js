@@ -6,8 +6,14 @@ import { lusitana, inter } from "@/app/ui/fonts";
 import { BakatsTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { getEstetikaData } from "@/app/lib/dataEstetika";
+import { auth } from "@/app/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function Estetika({ searchParams }) {
+  const session = await auth();
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getEstetikaData(query);
