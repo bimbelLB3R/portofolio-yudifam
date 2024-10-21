@@ -127,7 +127,7 @@ export default function EditKesehatanForm({ dataanaks, kesehatanById }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Data Riwayat</Button>
+        <Button type="submit">Simpan Perubahan</Button>
       </div>
     </form>
   );

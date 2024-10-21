@@ -6,7 +6,7 @@ import { UpdateKesehatan, DeleteKesehatan } from "./buttons";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
 
-export default async function KesehatanTable({ query, currentPage }) {
+export default async function KesehatanTable({ query, currentPage,namaKeluarga }) {
   const dataanaks = await fetchDataAnaks();
   const fotoanaks = dataanaks.map((item) => item.foto);
   const gambarAnakku = (
@@ -17,7 +17,7 @@ export default async function KesehatanTable({ query, currentPage }) {
         try {
           // Import gambar anak secara dinamis
 
-          const gambar = await import(`/app/ui/fotoAnak/${namaFile}`);
+          const gambar = await import(`/app/ui/fotoAnak/${namaKeluarga}/${namaFile}`);
           // Kembalikan pasangan nama anak dan gambar
           return [namaAnak, gambar.default];
         } catch (error) {

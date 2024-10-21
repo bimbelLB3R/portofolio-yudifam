@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { getPerkembanganData } from "@/app/lib/dataPerkembangan";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
+import { CurrentUserData } from "@/app/lib/data";
 
 export default async function Perkembangan({ searchParams }) {
   const session = await auth();
@@ -17,6 +18,8 @@ export default async function Perkembangan({ searchParams }) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getPerkembanganData(query);
+  const currentUser=await CurrentUserData();
+  const namaKeluarga=currentUser.currentUser.name;
   // console.log(totalPages);
   return (
     <div className="w-full">
@@ -32,7 +35,7 @@ export default async function Perkembangan({ searchParams }) {
         <CreatePerkembangan />
       </div>
       <Suspense key={query + currentPage} fallback={<BakatsTableSkeleton />}>
-        <PerkembanganTable query={query} currentPage={currentPage} />
+        <PerkembanganTable query={query} currentPage={currentPage} namaKeluarga={namaKeluarga}/>
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

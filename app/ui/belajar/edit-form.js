@@ -139,7 +139,7 @@ export default function EditBelajarForm({
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Data Belajar</Button>
+        <Button type="submit">Simpan Perubahan</Button>
       </div>
     </form>
   );

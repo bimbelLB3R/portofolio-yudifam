@@ -1,18 +1,8 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { GoogleSpreadsheet } from "google-spreadsheet";
-import { UpdateSeksualitas } from "../ui/seksualitas/buttons";
-
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
-const SHEET_ID5 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKEIMANAN;
-const SHEET_ID6 = process.env.NEXT_PUBLIC_SHEET_ID_DATABELAJAR;
-const SHEET_ID7 = process.env.NEXT_PUBLIC_SHEET_ID_DATAPERKEMBANGAN;
-const SHEET_ID8 = process.env.NEXT_PUBLIC_SHEET_ID_DATASEKSUALITAS;
-
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+import { accessSpreadsheet } from "./data";
+import { CurrentUserData } from "./data";
 
 export async function createSeksualitas(formData) {
   const date = new Date().toISOString().split("T")[0];
@@ -27,14 +17,16 @@ export async function createSeksualitas(formData) {
     updated_at: "",
   };
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
     // loads document properties and worksheets
     await doc.loadInfo();
+    const { SHEET_ID9 } = await CurrentUserData();
     // console.log(SHEET_ID3);
-    const sheet = doc.sheetsById[SHEET_ID8];
+    const sheet = doc.sheetsById[SHEET_ID9];
     // console.log(sheet);
 
     await sheet.addRow(rawFormData);
@@ -61,14 +53,16 @@ export async function updateSeksualitas(formData) {
     updated_at: date,
   };
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
     // loads document properties and worksheets
     await doc.loadInfo();
+    const { SHEET_ID9 } = await CurrentUserData();
     // console.log(SHEET_ID3);
-    const sheet = doc.sheetsById[SHEET_ID8];
+    const sheet = doc.sheetsById[SHEET_ID9];
     const rows = await sheet.getRows();
     const rowToUpdate = rows.find(
       (item) => item.id_seksualitas === idSeksualitas
@@ -97,6 +91,7 @@ export async function deleteSeksualitasById(formData) {
   const idToDel = formData.get("id_seksualitas");
   // console.log(`iddel=${idToDel}`);
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -105,8 +100,9 @@ export async function deleteSeksualitasById(formData) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
+    const { SHEET_ID9 } = await CurrentUserData();
 
-    const sheet = doc.sheetsById[SHEET_ID8]; // Misalnya, mengambil lembar kerja pertama
+    const sheet = doc.sheetsById[SHEET_ID9]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     const rowToDel = rows.find((item) => item.id_seksualitas === idToDel);
     // console.log(rowToDel);

@@ -1,15 +1,83 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
+import { auth } from "@/app/lib/auth";
+import { redirect } from "next/navigation";
+import fs from 'fs/promises';
+import path from 'path';
 
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
 const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
-const SHEET_ID12 = process.env.NEXT_PUBLIC_SHEET_ID_DATAOBSERVER;
+export async function CurrentUserData() {
+  const filePath = path.join(process.cwd(), 'app', 'api', 'user.json');
+  const fileContents = await fs.readFile(filePath, 'utf8');
+  const data = JSON.parse(fileContents);
+  // console.log(data.users)
+  const session = await auth();
+// console.log(session)
+// Ambil email dari session
+  const userEmail = session?.user?.email;
+// Mencari user dengan email yang cocok
+  const currentUser = data.users.find(user => user.email === userEmail);
+// console.log(currentUser)
+  if (!currentUser) {
+  // Jika tidak ada user dengan email tersebut, redirect atau tampilkan pesan error
+  // redirect("/not-found");  // Sesuaikan dengan halaman error atau penanganan lain
+  console.log('User tidak ada');
+}
+  // Ambil spreadsheetId dan sheetIds.bakat dari currentUser
+  const SPREADSHEET_ID = currentUser.spreadsheetId;
+  const SHEET_ID1 = currentUser.sheetIds.bakat;
+  const SHEET_ID2=currentUser.sheetIds.dataAnak;
+  const SHEET_ID4=currentUser.sheetIds.kesehatan;
+  const SHEET_ID5=currentUser.sheetIds.keimanan;
+  const SHEET_ID6=currentUser.sheetIds.belajar;
+  const SHEET_ID7=currentUser.sheetIds.kategoriBelajar;
+  const SHEET_ID8=currentUser.sheetIds.perkembangan;
+  const SHEET_ID9=currentUser.sheetIds.seksualitas;
+  const SHEET_ID10=currentUser.sheetIds.estetika;
+  const SHEET_ID11=currentUser.sheetIds.individualitas;
+  const SHEET_ID12=currentUser.sheetIds.observer;
+  return {
+    SPREADSHEET_ID,
+    SHEET_ID1,
+    SHEET_ID2,
+    SHEET_ID4,
+    SHEET_ID5,
+    SHEET_ID6,
+    SHEET_ID7,
+    SHEET_ID8,
+    SHEET_ID9,
+    SHEET_ID10,
+    SHEET_ID11,
+    SHEET_ID12,
+    currentUser
+  };
+}
 
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+
+export async function accessSpreadsheet() {
+  try {
+    // Panggil CurrentUserData untuk mendapatkan SPREADSHEET_ID
+    const { SPREADSHEET_ID } = await CurrentUserData();  // Tunggu hingga datanya tersedia
+    // console.log(SPREADSHEET_ID);
+    if (!SPREADSHEET_ID) {
+      console.error('Spreadsheet ID tidak ditemukan');
+      return null;  // Kembalikan null jika SPREADSHEET_ID tidak ada
+    }
+
+    // Inisialisasi GoogleSpreadsheet dengan SPREADSHEET_ID
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+
+    // Kembalikan objek doc
+    return doc;
+
+  } catch (error) {
+    console.error('Error saat inisialisasi GoogleSpreadsheet:', error);
+    return null;  // Kembalikan null jika terjadi error
+  }
+}
 
 export async function getDataSheet() {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -18,7 +86,7 @@ export async function getDataSheet() {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
@@ -35,6 +103,7 @@ export async function getDataSheet() {
 
 export async function appendToSpreadsheet(newRow) {
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -42,6 +111,7 @@ export async function appendToSpreadsheet(newRow) {
     // loads document properties and worksheets
     await doc.loadInfo();
     // console.log(SHEET_ID3);
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1];
     // console.log(sheet);
 
@@ -54,6 +124,7 @@ export async function appendToSpreadsheet(newRow) {
 
 export async function delDataSheet(tanggal) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -62,7 +133,7 @@ export async function delDataSheet(tanggal) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     const rowToDel = rows.find((item) => item.tanggal === tanggal);
@@ -80,6 +151,7 @@ export async function delDataSheet(tanggal) {
 export async function updateDataSheet(newRow) {
   const tanggal = newRow.tanggal;
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -88,7 +160,7 @@ export async function updateDataSheet(newRow) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     const rowToUpdate = rows.find((item) => item.tanggal === tanggal);
@@ -115,6 +187,7 @@ export async function getFilteredBakatData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -123,7 +196,7 @@ export async function getFilteredBakatData(query, currentPage) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // let filteredRows = rows;
@@ -170,7 +243,9 @@ export async function getFilteredBakatData(query, currentPage) {
 }
 
 export async function getBakatData(query) {
+  // console.log(session)
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -179,7 +254,7 @@ export async function getBakatData(query) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
@@ -201,6 +276,7 @@ export async function getBakatData(query) {
 
 export async function getBakatDataById(idBakatUpdate) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -209,7 +285,7 @@ export async function getBakatDataById(idBakatUpdate) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
@@ -224,6 +300,7 @@ export async function getBakatDataById(idBakatUpdate) {
 
 export async function getBakatDataByNama(namaAnak) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -232,7 +309,7 @@ export async function getBakatDataByNama(namaAnak) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const sheet2 = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
@@ -282,6 +359,7 @@ export async function getBakatDataByNama(namaAnak) {
 
 export async function getAllBakat() {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -305,6 +383,7 @@ export async function getAllBakat() {
 
 export async function fetchDataAnaks() {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -313,7 +392,7 @@ export async function fetchDataAnaks() {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID2 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID2]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
 
@@ -326,6 +405,7 @@ export async function fetchDataAnaks() {
 
 export async function fetchDataObservers() {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -334,7 +414,7 @@ export async function fetchDataObservers() {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID12 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID12]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
 
@@ -347,6 +427,7 @@ export async function fetchDataObservers() {
 
 export async function fetchNamaBakats() {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -369,6 +450,7 @@ export async function fetchNamaBakats() {
 // ambil data definisi bakat
 export async function getBakatDataByDefinisi(jenisBakat) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,

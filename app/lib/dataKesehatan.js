@@ -1,12 +1,5 @@
-import { GoogleSpreadsheet } from "google-spreadsheet";
-
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
-const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
-const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
-
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+import { accessSpreadsheet } from "./data";
+import { CurrentUserData } from "./data";
 
 const ITEMS_PER_PAGE = 6;
 export async function getFilteredKesehatanData(query, currentPage) {
@@ -15,6 +8,7 @@ export async function getFilteredKesehatanData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -23,7 +17,7 @@ export async function getFilteredKesehatanData(query, currentPage) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID4 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID4]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // let filteredRows = rows;
@@ -71,6 +65,7 @@ export async function getFilteredKesehatanData(query, currentPage) {
 
 export async function getKesehatanData(query) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -79,7 +74,7 @@ export async function getKesehatanData(query) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID4 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID4]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
@@ -101,6 +96,7 @@ export async function getKesehatanData(query) {
 
 export async function getKesehatanDataById(idKesehatanUpdate) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -109,7 +105,7 @@ export async function getKesehatanDataById(idKesehatanUpdate) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID4 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID4]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);

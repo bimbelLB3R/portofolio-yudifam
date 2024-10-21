@@ -144,7 +144,7 @@ export default function EditSeksualitasForm({ dataanaks, seksualitasById }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Data </Button>
+        <Button type="submit">Simpan Perubahan </Button>
       </div>
     </form>
   );

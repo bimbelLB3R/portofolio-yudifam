@@ -1,13 +1,8 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { GoogleSpreadsheet } from "google-spreadsheet";
-import { UpdateBakat } from "../ui/bakat/buttons";
-
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+import { accessSpreadsheet } from "./data";
+import { CurrentUserData } from "./data";
 
 export async function createKesehatan(formData) {
   const date = new Date().toISOString().split("T")[0];
@@ -22,12 +17,14 @@ export async function createKesehatan(formData) {
     tgl_update: "",
   };
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
     // loads document properties and worksheets
     await doc.loadInfo();
+    const { SHEET_ID4 } = await CurrentUserData();
     // console.log(SHEET_ID3);
     const sheet = doc.sheetsById[SHEET_ID4];
     // console.log(sheet);
@@ -56,12 +53,14 @@ export async function updateKesehatan(formData) {
     tgl_update: date,
   };
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
     // loads document properties and worksheets
     await doc.loadInfo();
+    const { SHEET_ID4 } = await CurrentUserData();
     // console.log(SHEET_ID3);
     const sheet = doc.sheetsById[SHEET_ID4];
     const rows = await sheet.getRows();
@@ -90,6 +89,7 @@ export async function deleteKesehatanById(formData) {
   const idToDel = formData.get("id_penyakit");
   // console.log(`iddel=${idToDel}`);
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -98,6 +98,7 @@ export async function deleteKesehatanById(formData) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
+    const { SHEET_ID4 } = await CurrentUserData();
 
     const sheet = doc.sheetsById[SHEET_ID4]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja

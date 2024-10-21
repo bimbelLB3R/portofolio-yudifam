@@ -44,7 +44,7 @@ function hitungUsia(tanggalLahir) {
   return { tahun, bulan, hari };
 }
 
-export default async function IndividualitasTable({ query, currentPage }) {
+export default async function IndividualitasTable({ query, currentPage, namaKeluarga }) {
   const dataanaks = await fetchDataAnaks();
   const fotoanaks = dataanaks.map((item) => item.foto);
   const tanggal_lahir_array = dataanaks.map((item) => item.tanggal_lahir);
@@ -75,7 +75,7 @@ export default async function IndividualitasTable({ query, currentPage }) {
         try {
           // Import gambar anak secara dinamis
 
-          const gambar = await import(`/app/ui/fotoAnak/${namaFile}`);
+          const gambar = await import(`/app/ui/fotoAnak/${namaKeluarga}/${namaFile}`);
           // Kembalikan pasangan nama anak dan gambar
           return [namaAnak, gambar.default];
         } catch (error) {

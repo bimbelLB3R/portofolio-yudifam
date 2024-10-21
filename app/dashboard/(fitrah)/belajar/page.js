@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { getBelajarData } from "@/app/lib/dataBelajar";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
+import { CurrentUserData } from "@/app/lib/data";
 
 export default async function Belajar({ searchParams }) {
   const session = await auth();
@@ -17,7 +18,9 @@ export default async function Belajar({ searchParams }) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getBelajarData(query);
-  // console.log(totalPages);
+  const currentUser=await CurrentUserData();
+  const namaKeluarga=currentUser.currentUser.name;
+  // console.log(namaKeluarga);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-center">
@@ -32,7 +35,7 @@ export default async function Belajar({ searchParams }) {
         <CreateBelajar />
       </div>
       <Suspense key={query + currentPage} fallback={<BakatsTableSkeleton />}>
-        <BelajarTable query={query} currentPage={currentPage} />
+        <BelajarTable query={query} currentPage={currentPage} namaKeluarga={namaKeluarga}/>
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

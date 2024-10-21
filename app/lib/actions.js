@@ -1,12 +1,10 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { GoogleSpreadsheet } from "google-spreadsheet";
-import { UpdateBakat } from "../ui/bakat/buttons";
+import { accessSpreadsheet } from "./data";
+import { CurrentUserData } from "./data";
 
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+
 
 export async function createInvoice(formData) {
   const date = new Date().toISOString().split("T")[0];
@@ -24,6 +22,7 @@ export async function createInvoice(formData) {
     observer: formData.get("observer"),
   };
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -31,6 +30,7 @@ export async function createInvoice(formData) {
     // loads document properties and worksheets
     await doc.loadInfo();
     // console.log(SHEET_ID3);
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1];
     // console.log(sheet);
 
@@ -61,6 +61,7 @@ export async function updateBakat(formData) {
     observer: formData.get("observer"),
   };
   try {
+    const doc=await accessSpreadsheet();
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -68,6 +69,7 @@ export async function updateBakat(formData) {
     // loads document properties and worksheets
     await doc.loadInfo();
     // console.log(SHEET_ID3);
+    const { SHEET_ID1 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1];
     const rows = await sheet.getRows();
     const rowToUpdate = rows.find((item) => item.idBakat === id_Bakat);
@@ -98,6 +100,7 @@ export async function deleteBakatById(formData) {
   const idToDel = formData.get("id_bakat");
   // console.log(`iddel=${idToDel}`);
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -106,7 +109,7 @@ export async function deleteBakatById(formData) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID1} = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     const rowToDel = rows.find((item) => item.idBakat === idToDel);

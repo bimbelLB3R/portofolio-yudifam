@@ -126,7 +126,7 @@ export default function EditKeimananForm({ dataanaks, keimananById }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Data Iman</Button>
+        <Button type="submit">Simpan Perubahan</Button>
       </div>
     </form>
   );

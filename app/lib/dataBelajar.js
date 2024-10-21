@@ -1,23 +1,12 @@
-import { GoogleSpreadsheet } from "google-spreadsheet";
-
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
-const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
-const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
-const SHEET_ID5 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKEIMANAN;
-const SHEET_ID6 = process.env.NEXT_PUBLIC_SHEET_ID_DATABELAJAR;
-const SHEET_ID7 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKATEGORIBELAJAR;
-
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+import { accessSpreadsheet } from "./data";
+import { CurrentUserData } from "./data";
 
 const ITEMS_PER_PAGE = 6;
 export async function getFilteredBelajarData(query, currentPage) {
-  // console.log(`currentPAge=${currentPage}`);
-  // console.log(query);
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -26,7 +15,7 @@ export async function getFilteredBelajarData(query, currentPage) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID6 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID6]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // let filteredRows = rows;
@@ -74,6 +63,7 @@ export async function getFilteredBelajarData(query, currentPage) {
 
 export async function getBelajarData(query) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -82,7 +72,7 @@ export async function getBelajarData(query) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID6 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID6]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
@@ -104,6 +94,7 @@ export async function getBelajarData(query) {
 
 export async function getBelajarDataById(idBelajarUpdate) {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -112,7 +103,7 @@ export async function getBelajarDataById(idBelajarUpdate) {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID6 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID6]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
@@ -129,6 +120,7 @@ export async function getBelajarDataById(idBelajarUpdate) {
 
 export async function getAllKategoriBelajar() {
   try {
+    const doc=await accessSpreadsheet();
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -137,7 +129,7 @@ export async function getAllKategoriBelajar() {
 
     // Load informasi lembar kerja
     await doc.loadInfo();
-
+    const { SHEET_ID7 } = await CurrentUserData();
     const sheet = doc.sheetsById[SHEET_ID7]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);

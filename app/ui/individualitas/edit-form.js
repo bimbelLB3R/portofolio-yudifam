@@ -147,7 +147,7 @@ export default function EditIndividualitasForm({
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Data </Button>
+        <Button type="submit">Simpan Perubahan</Button>
       </div>
     </form>
   );
