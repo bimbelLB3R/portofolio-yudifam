@@ -5,7 +5,7 @@ import profilPic from "/app/ui/aqila.png";
 export default function PortofolioLogo() {
   return (
     <div
-      className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
+      className={`${lusitana.className} flex items-center flex-row leading-none text-white `}
     >
       <Image
         src={profilPic}

@@ -5,7 +5,7 @@ import SessionWrapper from "./ui/sessionWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Yudi's Fams Portofolio",
+  title: "Portofolio Keluarga",
   description: "Rekam jejak berdasarkan FBE",
 };
 
