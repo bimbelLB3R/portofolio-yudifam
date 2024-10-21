@@ -1,3 +1,5 @@
+"use server";
+
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
