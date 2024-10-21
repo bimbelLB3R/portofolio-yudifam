@@ -34,6 +34,7 @@ export async function CurrentUserData() {
     const data = await loadUserData();
     const userEmail = session.user.email;
     const currentUser = data.users.find(user => user.email === userEmail);
+    // console.log(currentUser);
 
     if (!currentUser) {
       console.error('User dengan email tersebut tidak ditemukan');
@@ -120,8 +121,9 @@ export async function getDataSheet() {
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
     // const dataFromSheet = rows.map((item) => item.tanggal);
-    // console.log(dataFromSheet);
+    // console.log(rows);
     const tanggal = rows.map((item) => item.tanggal);
+    console.log(tanggal)
     const aktivitas = rows.map((item) => item.aktivitas);
     const cerita = rows.map((item) => item.cerita);
     return { tanggal, aktivitas, cerita };
