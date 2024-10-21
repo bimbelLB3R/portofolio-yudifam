@@ -21,6 +21,7 @@ export async function CurrentUserData() {
   // Jika tidak ada user dengan email tersebut, redirect atau tampilkan pesan error
   // redirect("/not-found");  // Sesuaikan dengan halaman error atau penanganan lain
   console.log('User tidak ada');
+  redirect("/dashboard");
 }
   // Ambil spreadsheetId dan sheetIds.bakat dari currentUser
   const SPREADSHEET_ID = currentUser.spreadsheetId;

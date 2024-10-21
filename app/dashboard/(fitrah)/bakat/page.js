@@ -30,6 +30,7 @@ export default async function Bakat({ searchParams }) {
     // Jika tidak ada user dengan email tersebut, redirect atau tampilkan pesan error
     // redirect("/not-found");  // Sesuaikan dengan halaman error atau penanganan lain
     console.log('User tidak ada');
+    redirect("/dashboard");
   }
   const namaKeluarga=currentUser.name;
   const query = searchParams?.query || "";

@@ -12,13 +12,18 @@ import { CurrentUserData } from "@/app/lib/data";
 
 export default async function Keimanan({ searchParams }) {
   const session = await auth();
+  const currentUser=await CurrentUserData();
   if (!session) {
     redirect("/api/auth/signin");
+  }
+  const userEmail = session?.user?.email;
+  const currentUserEmail=currentUser.currentUser.email;
+  if(userEmail!==currentUserEmail){
+    redirect("/dashboard");
   }
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getKeimananData(query);
-  const currentUser=await CurrentUserData();
   const namaKeluarga=currentUser.currentUser.name;
   // console.log(totalPages);
   return (
