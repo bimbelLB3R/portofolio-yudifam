@@ -106,32 +106,32 @@ export async function accessSpreadsheet() {
   }
 }
 
-export async function getDataSheet() {
-  try {
-    const doc=await accessSpreadsheet();
-    // Autentikasi dengan kredensial
-    await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    });
+// export async function getDataSheet() {
+//   try {
+//     const doc=await accessSpreadsheet();
+//     // Autentikasi dengan kredensial
+//     await doc.useServiceAccountAuth({
+//       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+//     });
 
-    // Load informasi lembar kerja
-    await doc.loadInfo();
-    const { SHEET_ID1 } = await CurrentUserData();
-    const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
-    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
-    // const dataFromSheet = rows.map((item) => item.tanggal);
-    // console.log(rows);
-    const tanggal = rows.map((item) => item.tanggal);
-    console.log(tanggal)
-    const aktivitas = rows.map((item) => item.aktivitas);
-    const cerita = rows.map((item) => item.cerita);
-    return { tanggal, aktivitas, cerita };
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet.");
-  }
-}
+//     // Load informasi lembar kerja
+//     await doc.loadInfo();
+//     const { SHEET_ID1 } = await CurrentUserData();
+//     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
+//     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+//     // const dataFromSheet = rows.map((item) => item.tanggal);
+//     // console.log(rows);
+//     const tanggal = rows.map((item) => item.tanggal);
+//     console.log(tanggal)
+//     const aktivitas = rows.map((item) => item.aktivitas);
+//     const cerita = rows.map((item) => item.cerita);
+//     return { tanggal, aktivitas, cerita };
+//   } catch (error) {
+//     console.error("Database Error:", error);
+//     throw new Error("Failed to fetch data from sheet.");
+//   }
+// }
 
 export async function appendToSpreadsheet(newRow) {
   try {
@@ -413,71 +413,71 @@ export async function getAllBakat() {
   }
 }
 
-export async function fetchDataAnaks() {
-  try {
-    const doc=await accessSpreadsheet();
-    // Autentikasi dengan kredensial
-    await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    });
+// export async function fetchDataAnaks() {
+//   try {
+//     const doc=await accessSpreadsheet();
+//     // Autentikasi dengan kredensial
+//     await doc.useServiceAccountAuth({
+//       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+//     });
 
-    // Load informasi lembar kerja
-    await doc.loadInfo();
-    const { SHEET_ID2 } = await CurrentUserData();
-    const sheet = doc.sheetsById[SHEET_ID2]; // Misalnya, mengambil lembar kerja pertama
-    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+//     // Load informasi lembar kerja
+//     await doc.loadInfo();
+//     const { SHEET_ID2 } = await CurrentUserData();
+//     const sheet = doc.sheetsById[SHEET_ID2]; // Misalnya, mengambil lembar kerja pertama
+//     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
 
-    return rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet 2.");
-  }
-}
+//     return rows;
+//   } catch (error) {
+//     console.error("Database Error:", error);
+//     throw new Error("Failed to fetch data from sheet 2.");
+//   }
+// }
 
-export async function fetchDataObservers() {
-  try {
-    const doc=await accessSpreadsheet();
-    // Autentikasi dengan kredensial
-    await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    });
+// export async function fetchDataObservers() {
+//   try {
+//     const doc=await accessSpreadsheet();
+//     // Autentikasi dengan kredensial
+//     await doc.useServiceAccountAuth({
+//       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+//     });
 
-    // Load informasi lembar kerja
-    await doc.loadInfo();
-    const { SHEET_ID12 } = await CurrentUserData();
-    const sheet = doc.sheetsById[SHEET_ID12]; // Misalnya, mengambil lembar kerja pertama
-    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+//     // Load informasi lembar kerja
+//     await doc.loadInfo();
+//     const { SHEET_ID12 } = await CurrentUserData();
+//     const sheet = doc.sheetsById[SHEET_ID12]; // Misalnya, mengambil lembar kerja pertama
+//     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
 
-    return rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet 2.");
-  }
-}
+//     return rows;
+//   } catch (error) {
+//     console.error("Database Error:", error);
+//     throw new Error("Failed to fetch data from sheet 2.");
+//   }
+// }
 
-export async function fetchNamaBakats() {
-  try {
-    const doc=await accessSpreadsheet();
-    // Autentikasi dengan kredensial
-    await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    });
+// export async function fetchNamaBakats() {
+//   try {
+//     const doc=await accessSpreadsheet();
+//     // Autentikasi dengan kredensial
+//     await doc.useServiceAccountAuth({
+//       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+//     });
 
-    // Load informasi lembar kerja
-    await doc.loadInfo();
+//     // Load informasi lembar kerja
+//     await doc.loadInfo();
 
-    const sheet = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
-    const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
+//     const sheet = doc.sheetsById[SHEET_ID3]; // Misalnya, mengambil lembar kerja pertama
+//     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
 
-    return rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet 2.");
-  }
-}
+//     return rows;
+//   } catch (error) {
+//     console.error("Database Error:", error);
+//     throw new Error("Failed to fetch data from sheet 2.");
+//   }
+// }
 
 // ambil data definisi bakat
 export async function getBakatDataByDefinisi(jenisBakat) {
