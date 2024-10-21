@@ -17,10 +17,14 @@ export default async function Seksualitas({ searchParams }) {
     redirect("/api/auth/signin");
   }
   
+  if(!currentUser){
+    redirect("/dashboard");
+  }
+  const namaKeluarga=currentUser.currentUser.name;
+
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getSeksualitasData(query);
-  const namaKeluarga=currentUser.currentUser.name;
   // console.log(totalPages);
   return (
     <div className="w-full">

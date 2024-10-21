@@ -6,51 +6,74 @@ import path from 'path';
 
 const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
 export async function CurrentUserData() {
-  const filePath = path.join(process.cwd(), 'app', 'api', 'user.json');
-  const fileContents = await fs.readFile(filePath, 'utf8');
-  const data = JSON.parse(fileContents);
-  // console.log(data.users)
+  // console.log(session);
   const session = await auth();
-// console.log(session)
-// Ambil email dari session
-  const userEmail = session?.user?.email;
-// Mencari user dengan email yang cocok
-  const currentUser = data.users.find(user => user.email === userEmail);
-// console.log(currentUser)
-  if (!currentUser) {
-  // Jika tidak ada user dengan email tersebut, redirect atau tampilkan pesan error
-  // redirect("/not-found");  // Sesuaikan dengan halaman error atau penanganan lain
-  console.log('User tidak ada');
-  redirect("/dashboard");
-}
-  // Ambil spreadsheetId dan sheetIds.bakat dari currentUser
-  const SPREADSHEET_ID = currentUser.spreadsheetId;
-  const SHEET_ID1 = currentUser.sheetIds.bakat;
-  const SHEET_ID2=currentUser.sheetIds.dataAnak;
-  const SHEET_ID4=currentUser.sheetIds.kesehatan;
-  const SHEET_ID5=currentUser.sheetIds.keimanan;
-  const SHEET_ID6=currentUser.sheetIds.belajar;
-  const SHEET_ID7=currentUser.sheetIds.kategoriBelajar;
-  const SHEET_ID8=currentUser.sheetIds.perkembangan;
-  const SHEET_ID9=currentUser.sheetIds.seksualitas;
-  const SHEET_ID10=currentUser.sheetIds.estetika;
-  const SHEET_ID11=currentUser.sheetIds.individualitas;
-  const SHEET_ID12=currentUser.sheetIds.observer;
-  return {
-    SPREADSHEET_ID,
-    SHEET_ID1,
-    SHEET_ID2,
-    SHEET_ID4,
-    SHEET_ID5,
-    SHEET_ID6,
-    SHEET_ID7,
-    SHEET_ID8,
-    SHEET_ID9,
-    SHEET_ID10,
-    SHEET_ID11,
-    SHEET_ID12,
-    currentUser
-  };
+  try {
+    // Cek validitas session
+    if (!session || !session.user || !session.user.email) {
+      console.error('Session tidak valid atau email user tidak ditemukan');
+      return null;
+    }
+
+    // Membaca file user.json
+    const filePath = path.join(process.cwd(), 'app', 'api', 'user.json');
+    const fileContents = await fs.readFile(filePath, 'utf8');
+    const data = JSON.parse(fileContents);
+
+    // Ambil email dari session
+    const userEmail = session.user.email;
+
+    // Mencari user dengan email yang cocok
+    const currentUser = data.users.find(user => user.email === userEmail);
+
+    if (!currentUser) {
+      console.error('User dengan email tersebut tidak ditemukan');
+      return null;
+    }
+
+    // Cek apakah currentUser memiliki spreadsheetId dan sheetIds
+    if (!currentUser.spreadsheetId || !currentUser.sheetIds) {
+      console.error('spreadsheetId atau sheetIds tidak ditemukan pada user');
+      return null;
+    }
+
+    // Ambil spreadsheetId dan sheetIds dari currentUser
+    const SPREADSHEET_ID = currentUser.spreadsheetId;
+    const {
+      bakat: SHEET_ID1,
+      dataAnak: SHEET_ID2,
+      kesehatan: SHEET_ID4,
+      keimanan: SHEET_ID5,
+      belajar: SHEET_ID6,
+      kategoriBelajar: SHEET_ID7,
+      perkembangan: SHEET_ID8,
+      seksualitas: SHEET_ID9,
+      estetika: SHEET_ID10,
+      individualitas: SHEET_ID11,
+      observer: SHEET_ID12
+    } = currentUser.sheetIds;
+
+    // Mengembalikan data yang dibutuhkan
+    return {
+      SPREADSHEET_ID,
+      SHEET_ID1,
+      SHEET_ID2,
+      SHEET_ID4,
+      SHEET_ID5,
+      SHEET_ID6,
+      SHEET_ID7,
+      SHEET_ID8,
+      SHEET_ID9,
+      SHEET_ID10,
+      SHEET_ID11,
+      SHEET_ID12,
+      currentUser  //objeck dibuat object lagi sehingga harus dipanggil dua kali
+    };
+
+  } catch (error) {
+    console.error('Error saat mengambil data pengguna:', error);
+    return null;
+  }
 }
 
 

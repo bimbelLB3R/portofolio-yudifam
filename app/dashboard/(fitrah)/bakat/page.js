@@ -8,31 +8,21 @@ import { Suspense } from "react";
 import { getBakatData } from "@/app/lib/data";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
-import fs from 'fs/promises';
-import path from 'path';
+import { CurrentUserData } from "@/app/lib/data";
 
 export default async function Bakat({ searchParams }) {
-  const filePath = path.join(process.cwd(), 'app', 'api', 'user.json');
-  const fileContents = await fs.readFile(filePath, 'utf8');
-  const data = JSON.parse(fileContents);
-  // console.log(data.users)
   const session = await auth();
-  // console.log(session)
+  const currentUser=await CurrentUserData();
   if (!session) {
     redirect("/api/auth/signin");
   }
-  // Ambil email dari session
-  const userEmail = session?.user?.email;
-  // Mencari user dengan email yang cocok
-  const currentUser = data.users.find(user => user.email === userEmail);
-  // console.log(currentUser)
-  if (!currentUser) {
-    // Jika tidak ada user dengan email tersebut, redirect atau tampilkan pesan error
-    // redirect("/not-found");  // Sesuaikan dengan halaman error atau penanganan lain
-    console.log('User tidak ada');
+
+  if(!currentUser){
     redirect("/dashboard");
   }
-  const namaKeluarga=currentUser.name;
+  // console.log(currentUser)
+
+  const namaKeluarga=currentUser.currentUser.name;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getBakatData(query,currentUser);

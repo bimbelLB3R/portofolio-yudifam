@@ -16,16 +16,14 @@ export default async function Kesehatan({ searchParams }) {
   if (!session) {
     redirect("/api/auth/signin");
   }
-  const userEmail = session?.user?.email;
-  const currentUserEmail=currentUser.currentUser.email;
-  if(userEmail!==currentUserEmail){
+  
+  if(!currentUser){
     redirect("/dashboard");
   }
+  const namaKeluarga=currentUser.currentUser.name;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getKesehatanData(query);
-  const namaKeluarga=currentUser.currentUser.name;
-  // console.log(totalPages);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-center">
