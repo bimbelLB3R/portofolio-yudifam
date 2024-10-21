@@ -7,25 +7,32 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
+let userDataCache = null;
+
+async function loadUserData() {
+  if (userDataCache) {
+    return userDataCache; // Jika data sudah di-cache, kembalikan data dari cache
+  }
+
+  // Jika belum, baca file user.json
+  const filePath = path.join(process.cwd(), 'app', 'api', 'user.json');
+  const fileContents = await fs.readFile(filePath, 'utf8');
+  userDataCache = JSON.parse(fileContents); // Simpan ke cache
+
+  return userDataCache;
+}
+
 export async function CurrentUserData() {
-  // console.log(session);
   const session = await auth();
   try {
-    // Cek validitas session
     if (!session || !session.user || !session.user.email) {
       console.error('Session tidak valid atau email user tidak ditemukan');
       return null;
     }
 
-    // Membaca file user.json
-    const filePath = path.join(process.cwd(), 'app', 'api', 'user.json');
-    const fileContents = await fs.readFile(filePath, 'utf8');
-    const data = JSON.parse(fileContents);
-
-    // Ambil email dari session
+    // Ambil data pengguna dari cache
+    const data = await loadUserData();
     const userEmail = session.user.email;
-
-    // Mencari user dengan email yang cocok
     const currentUser = data.users.find(user => user.email === userEmail);
 
     if (!currentUser) {
@@ -33,13 +40,11 @@ export async function CurrentUserData() {
       return null;
     }
 
-    // Cek apakah currentUser memiliki spreadsheetId dan sheetIds
     if (!currentUser.spreadsheetId || !currentUser.sheetIds) {
       console.error('spreadsheetId atau sheetIds tidak ditemukan pada user');
       return null;
     }
 
-    // Ambil spreadsheetId dan sheetIds dari currentUser
     const SPREADSHEET_ID = currentUser.spreadsheetId;
     const {
       bakat: SHEET_ID1,
@@ -55,7 +60,6 @@ export async function CurrentUserData() {
       observer: SHEET_ID12
     } = currentUser.sheetIds;
 
-    // Mengembalikan data yang dibutuhkan
     return {
       SPREADSHEET_ID,
       SHEET_ID1,
@@ -69,7 +73,7 @@ export async function CurrentUserData() {
       SHEET_ID10,
       SHEET_ID11,
       SHEET_ID12,
-      currentUser  //objeck dibuat object lagi sehingga harus dipanggil dua kali
+      currentUser
     };
 
   } catch (error) {
