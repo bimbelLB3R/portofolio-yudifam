@@ -1,16 +1,36 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { auth } from "@/app/lib/auth";
+// export async function AmbilSesi() {
+//   const session = await auth();
+//   // console.log(session.user.email)
+//   const emailBySession=session.user.email;
+//   if(emailBySession==='ayoberkarya@gmail.com'){
+//     const SPREADSHEET_ID='1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro';
+//     return SPREADSHEET_ID
+//   }else{
+//     const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
+//     return SPREADSHEET_ID
+//   }
+// }
 export async function AmbilSesi() {
   const session = await auth();
-  // console.log(session.user.email)
-  const emailBySession=session.user.email;
-  if(emailBySession==='ayoberkarya@gmail.com'){
-    const SPREADSHEET_ID='1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro';
-    return SPREADSHEET_ID
-  }else{
-    const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-    return SPREADSHEET_ID
+  const emailBySession = session.user.email;
+
+  // Mapping email ke SPREADSHEET_ID
+  const spreadsheetMap = {
+    'ayoberkarya@gmail.com': '1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro',
+    'ikhwchemist@gmail.com': process.env.NEXT_PUBLIC_SPREADSHEET_ID
+  };
+
+  // Memeriksa apakah email pengguna ada dalam map
+  const SPREADSHEET_ID = spreadsheetMap[emailBySession];
+
+  // Jika tidak ditemukan, lempar error
+  if (!SPREADSHEET_ID) {
+    throw new Error(`Spreadsheet ID not found for email: ${emailBySession}`);
   }
+
+  return SPREADSHEET_ID;
 }
 
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
