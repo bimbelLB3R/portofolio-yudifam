@@ -3,10 +3,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { UpdateBakat } from "../ui/bakat/buttons";
+import { AmbilSesi } from "./data";
 
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
+// const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
+// const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
 export async function createInvoice(formData) {
   const date = new Date().toISOString().split("T")[0];
@@ -24,6 +25,8 @@ export async function createInvoice(formData) {
     observer: formData.get("observer"),
   };
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -61,6 +64,8 @@ export async function updateBakat(formData) {
     observer: formData.get("observer"),
   };
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -98,6 +103,8 @@ export async function deleteBakatById(formData) {
   const idToDel = formData.get("id_bakat");
   // console.log(`iddel=${idToDel}`);
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,

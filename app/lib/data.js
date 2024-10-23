@@ -22,6 +22,8 @@ export async function AmbilSesi() {
     'ikhwchemist@gmail.com': process.env.NEXT_PUBLIC_SPREADSHEET_ID
   };
 
+  // On Vercel, the maximum number of environment variables you can have per environment (like Production, Preview, or Development) is 1,000 per project. Additionally, the total size of your environment variables (including both the names and values) is limited to 64KB. This size limit applies per deployment and to any single environment variable within the project. googlesheet API,300 requests per minute per project, with a limit of 60 requests per minute per user.
+
   // Memeriksa apakah email pengguna ada dalam map
   const SPREADSHEET_ID = spreadsheetMap[emailBySession];
 

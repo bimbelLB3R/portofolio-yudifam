@@ -3,18 +3,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { UpdateIndividualitas } from "../ui/individualitas/buttons";
+import { AmbilSesi } from "./data";
 
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
-const SHEET_ID5 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKEIMANAN;
-const SHEET_ID6 = process.env.NEXT_PUBLIC_SHEET_ID_DATABELAJAR;
-const SHEET_ID7 = process.env.NEXT_PUBLIC_SHEET_ID_DATAPERKEMBANGAN;
-const SHEET_ID8 = process.env.NEXT_PUBLIC_SHEET_ID_DATASEKSUALITAS;
-const SHEET_ID9 = process.env.NEXT_PUBLIC_SHEET_ID_DATAESTETIKA;
 const SHEET_ID10 = process.env.NEXT_PUBLIC_SHEET_ID_DATAINDIVIDUALITAS;
 
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
 export async function createIndividualitas(formData) {
   const date = new Date().toISOString().split("T")[0];
@@ -29,6 +21,8 @@ export async function createIndividualitas(formData) {
     updated_at: "",
   };
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -63,6 +57,8 @@ export async function updateIndividualitas(formData) {
     updated_at: date,
   };
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -100,6 +96,8 @@ export async function deleteIndividualitasById(formData) {
   const idToDel = formData.get("id_individualitas");
   // console.log(`iddel=${idToDel}`);
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,

@@ -1,13 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
-
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
-const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
-const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
-const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
+import { AmbilSesi } from "./data";
 const SHEET_ID5 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKEIMANAN;
 
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
 const ITEMS_PER_PAGE = 6;
 export async function getFilteredKeimananData(query, currentPage) {
@@ -16,6 +10,8 @@ export async function getFilteredKeimananData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -72,6 +68,8 @@ export async function getFilteredKeimananData(query, currentPage) {
 
 export async function getKeimananData(query) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -102,6 +100,8 @@ export async function getKeimananData(query) {
 
 export async function getKeimananDataById(idKeimananUpdate) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
