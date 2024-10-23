@@ -43,7 +43,7 @@ export default async function handler(req, res) {
         "/fotoAnak/hasna.png",
         "/fotoAnak/uwais.png"
       ],
-      spreadsheetId: "1vGyLe-AhSGpCevhk4z6Lil9VowS1p5HOlkwRj6okZg4",
+      spreadsheetId: "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro",
       sheetIds: {
         "bakat": "0",
         "observer": "1540847039",

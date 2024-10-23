@@ -11,15 +11,16 @@ import { redirect } from "next/navigation";
 
 export default async function Bakat({ searchParams }) {
   const getUsers=async()=>{
-    const res=await fetch('http://localhost:3000/api/');
+    const res=await fetch('https://portofolio-yudifam.vercel.app/api/');
     return res.json()
   }
   // Fungsi async harus digunakan dalam fungsi async lainnya
-(async () => {
+
   const loginUser = await getUsers(); // Menunggu hasil promise
   // console.log(loginUser); // Menampilkan data JSON yang diambil
-})();
+
   const session = await auth();
+  // console.log(session)
   if (!session) {
     redirect("/api/auth/signin");
   }
