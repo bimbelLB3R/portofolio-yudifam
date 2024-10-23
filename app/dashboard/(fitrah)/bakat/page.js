@@ -10,6 +10,15 @@ import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function Bakat({ searchParams }) {
+  const getUsers=async()=>{
+    const res=await fetch('http://localhost:3000/api/');
+    return res.json()
+  }
+  // Fungsi async harus digunakan dalam fungsi async lainnya
+(async () => {
+  const loginUser = await getUsers(); // Menunggu hasil promise
+  // console.log(loginUser); // Menampilkan data JSON yang diambil
+})();
   const session = await auth();
   if (!session) {
     redirect("/api/auth/signin");
