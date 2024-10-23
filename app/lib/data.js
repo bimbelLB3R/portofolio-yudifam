@@ -1,15 +1,29 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
+import { auth } from "@/app/lib/auth";
+export async function AmbilSesi() {
+  const session = await auth();
+  // console.log(session.user.email)
+  const emailBySession=session.user.email;
+  if(emailBySession==='ayoberkarya@gmail.com'){
+    const SPREADSHEET_ID='1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro';
+    return SPREADSHEET_ID
+  }else{
+    const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
+    return SPREADSHEET_ID
+  }
+}
 
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
 const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
 const SHEET_ID3 = process.env.NEXT_PUBLIC_SHEET_ID_DATABAKAT;
 const SHEET_ID12 = process.env.NEXT_PUBLIC_SHEET_ID_DATAOBSERVER;
 
-const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+// const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
 export async function getDataSheet() {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -35,6 +49,8 @@ export async function getDataSheet() {
 
 export async function appendToSpreadsheet(newRow) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -54,6 +70,8 @@ export async function appendToSpreadsheet(newRow) {
 
 export async function delDataSheet(tanggal) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -80,6 +98,8 @@ export async function delDataSheet(tanggal) {
 export async function updateDataSheet(newRow) {
   const tanggal = newRow.tanggal;
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -115,6 +135,8 @@ export async function getFilteredBakatData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -171,6 +193,8 @@ export async function getFilteredBakatData(query, currentPage) {
 
 export async function getBakatData(query) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -201,6 +225,8 @@ export async function getBakatData(query) {
 
 export async function getBakatDataById(idBakatUpdate) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -224,6 +250,8 @@ export async function getBakatDataById(idBakatUpdate) {
 
 export async function getBakatDataByNama(namaAnak) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -282,6 +310,8 @@ export async function getBakatDataByNama(namaAnak) {
 
 export async function getAllBakat() {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -305,6 +335,8 @@ export async function getAllBakat() {
 
 export async function fetchDataAnaks() {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -326,6 +358,8 @@ export async function fetchDataAnaks() {
 
 export async function fetchDataObservers() {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -347,6 +381,8 @@ export async function fetchDataObservers() {
 
 export async function fetchNamaBakats() {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -369,6 +405,8 @@ export async function fetchNamaBakats() {
 // ambil data definisi bakat
 export async function getBakatDataByDefinisi(jenisBakat) {
   try {
+    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
