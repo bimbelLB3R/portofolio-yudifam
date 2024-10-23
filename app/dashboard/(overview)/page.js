@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { delDataSheet, getDataSheet } from "@/app/lib/data";
 import { inter } from "@/app/ui/fonts";
 import { Suspense } from "react";

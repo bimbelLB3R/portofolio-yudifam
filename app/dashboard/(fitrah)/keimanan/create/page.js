@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Form from "@/app/ui/keimanan/create-form";
 import Breadcrumbs from "@/app/ui/keimanan/bread-crumbs";
 import { fetchDataAnaks } from "@/app/lib/data";

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Form from "@/app/ui/perkembangan/create-form";
 import Breadcrumbs from "@/app/ui/perkembangan/bread-crumbs";
 import { fetchDataAnaks } from "@/app/lib/data";

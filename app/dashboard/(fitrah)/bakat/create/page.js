@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Form from "@/app/ui/bakat/create-form";
 import Breadcrumbs from "@/app/ui/bakat/bread-crumbs";
 import {

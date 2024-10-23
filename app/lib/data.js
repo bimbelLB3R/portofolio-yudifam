@@ -352,7 +352,7 @@ export async function fetchDataAnaks() {
     return rows;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet 2.");
+    throw new Error("Failed to fetch data from Data Anak.");
   }
 }
 
@@ -375,7 +375,7 @@ export async function fetchDataObservers() {
     return rows;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet 2.");
+    throw new Error("Failed to fetch data from Data Observer.");
   }
 }
 
@@ -398,7 +398,7 @@ export async function fetchNamaBakats() {
     return rows;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch data from sheet 2.");
+    throw new Error("Failed to fetch data from Nama Bakat.");
   }
 }
 
