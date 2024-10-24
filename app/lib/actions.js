@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { UpdateBakat } from "../ui/bakat/buttons";
 import { AmbilSesi } from "./data";
+import { auth } from "@/app/lib/auth";
+
 
 // const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
 // const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
@@ -24,8 +26,18 @@ export async function createInvoice(formData) {
     dominan: formData.get("dominan"),
     observer: formData.get("observer"),
   };
+  // Spreadsheet IDs
+  const session = await auth();
+  const spreadsheetIdA = await AmbilSesi(); //guru
+  const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
+  ? "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro":[spreadsheetIdA]; //nopal
+  // Logika untuk menentukan spreadsheet yang akan digunakan
+  const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
+    ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
+    : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    for (const SPREADSHEET_ID of spreadsheetIds) {
+    // const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -38,12 +50,14 @@ export async function createInvoice(formData) {
     // console.log(sheet);
 
     await sheet.addRow(rawFormData);
+  }
   } catch (error) {
     console.error("Append Error:", error);
     throw new Error("Failed to append data from tambah bakat.");
   }
   revalidatePath("/dashboard/bakat");
   redirect("/dashboard/bakat");
+
 }
 
 // update
