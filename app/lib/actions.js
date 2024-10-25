@@ -28,9 +28,9 @@ export async function createInvoice(formData) {
   };
   // Spreadsheet IDs
   const session = await auth();
-  const spreadsheetIdA = await AmbilSesi(); //guru
+  const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
   const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
-  ? "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro":[spreadsheetIdA]; //nopal
+  ? "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro":[spreadsheetIdA]; //spreadsheet target
   // Logika untuk menentukan spreadsheet yang akan digunakan
   const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
     ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
@@ -77,8 +77,18 @@ export async function updateBakat(formData) {
     dominan: formData.get("dominan"),
     observer: formData.get("observer"),
   };
+  // Spreadsheet IDs
+  const session = await auth();
+  const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
+  const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
+  ? "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro":[spreadsheetIdA]; //spreadsheet target
+  // Logika untuk menentukan spreadsheet yang akan digunakan
+  const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
+    ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
+    : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    for (const SPREADSHEET_ID of spreadsheetIds) {
+     // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -103,6 +113,7 @@ export async function updateBakat(formData) {
       rowToUpdate.observer = rawFormData.observer;
       await rowToUpdate.save();
     }
+  }
   } catch (error) {
     console.error("Append Error:", error);
     throw new Error("Failed to update data .");
