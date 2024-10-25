@@ -43,6 +43,8 @@ export default async function BakatTable({ query, currentPage }) {
 
   // const gambarAnakku = await gambarAnak();
   const bakats = await getFilteredBakatData(query, currentPage);
+  const namaNama=bakats.map((nama)=>nama.nama);
+  // console.log(namaNama);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -94,7 +96,7 @@ export default async function BakatTable({ query, currentPage }) {
                     <UpdateBakat id={bakat.idBakat} />
                   </div>
                   <div className="flex items-center justify-center">
-                    <DeleteBakat iddel={bakat.idBakat} />
+                    <DeleteBakat iddel={`${bakat.idBakat}."-".${bakat.nama}`} />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
@@ -188,7 +190,7 @@ export default async function BakatTable({ query, currentPage }) {
                         <UpdateBakat id={bakat.idBakat} />
                       </div>
                       <div className="flex items-center justify-center">
-                        <DeleteBakat iddel={bakat.idBakat} />
+                        <DeleteBakat iddel={bakat.nama} id={bakat.idBakat} />
                       </div>
                     </div>
                   </td>

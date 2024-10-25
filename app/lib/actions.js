@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { UpdateBakat } from "../ui/bakat/buttons";
-import { AmbilSesi } from "./data";
+import { AmbilSesi, AmbilTargetAnak } from "./data";
 import { auth } from "@/app/lib/auth";
 
 
@@ -27,10 +27,12 @@ export async function createInvoice(formData) {
     observer: formData.get("observer"),
   };
   // Spreadsheet IDs
+  const anakTarget=rawFormData.nama;
+  const anakTertarget=AmbilTargetAnak(anakTarget);
   const session = await auth();
   const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
   const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
-  ? "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro":[spreadsheetIdA]; //spreadsheet target
+  ? anakTertarget:[spreadsheetIdA]; //spreadsheet target
   // Logika untuk menentukan spreadsheet yang akan digunakan
   const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
     ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
@@ -78,10 +80,12 @@ export async function updateBakat(formData) {
     observer: formData.get("observer"),
   };
   // Spreadsheet IDs
+  const anakTarget=rawFormData.nama;
+  const anakTertarget=AmbilTargetAnak(anakTarget);
   const session = await auth();
   const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
   const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
-  ? "1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro":[spreadsheetIdA]; //spreadsheet target
+  ? anakTertarget:[spreadsheetIdA]; //spreadsheet target
   // Logika untuk menentukan spreadsheet yang akan digunakan
   const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
     ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
@@ -124,11 +128,23 @@ export async function updateBakat(formData) {
 
 // delete
 export async function deleteBakatById(formData) {
-  // throw new Error("Failed to Delete Invoice");
   const idToDel = formData.get("id_bakat");
-  // console.log(`iddel=${idToDel}`);
+  const id= formData.get("id");
+  // console.log(idToDel);
+  // console.log(id);
+  const anakTertarget=AmbilTargetAnak(idToDel);
+  // console.log(anakTertarget);
+  const session = await auth();
+  const spreadsheetIdA=await AmbilSesi();
+  const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
+  ? anakTertarget:[spreadsheetIdA]; //spreadsheet target
+  const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
+    ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
+    : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
+  // jika sesi adalah guru maka ambil spreadsheet guru+spreadsheed anak, selain itu sesuai sesi.
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    for (const SPREADSHEET_ID of spreadsheetIds) {
+    // const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -141,11 +157,13 @@ export async function deleteBakatById(formData) {
 
     const sheet = doc.sheetsById[SHEET_ID1]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
-    const rowToDel = rows.find((item) => item.idBakat === idToDel);
+    // console.log(rows);
+    const rowToDel = rows.find((item) => item.idBakat === id);
     // console.log(rowToDel);
     if (rowToDel) {
       await rowToDel.del();
     }
+  }
     // console.log(rowToDelAll);
   } catch (error) {
     console.error("Database Error:", error);
