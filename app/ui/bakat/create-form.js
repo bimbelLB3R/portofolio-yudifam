@@ -218,7 +218,9 @@ export default function Form({ dataanaks, databakats, dataobservers }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Tambah Data</Button>
+        <Button  type="submit" className="flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-600">
+            Tambah Data
+          </Button>
       </div>
     </form>
   );

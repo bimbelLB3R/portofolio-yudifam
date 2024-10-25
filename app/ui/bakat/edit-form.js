@@ -37,6 +37,7 @@ export default function EditBakatForm({
     <form action={updateBakat}>
       <input type="hidden" name="id_bakat" value={idBakatToUpdate} />
       <input type="hidden" name="tanggal" value={tanggalBakatToUpdate} />
+      <input type="hidden" name="namaAnak" value={dataWillUpdate.nama[0]} />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">

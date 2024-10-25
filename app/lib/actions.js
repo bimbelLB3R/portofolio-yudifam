@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { UpdateBakat } from "../ui/bakat/buttons";
-import { AmbilSesi, AmbilTargetAnak } from "./data";
+import { AmbilSesi, AmbilSesiGuru, AmbilTargetAnak } from "./data";
 import { auth } from "@/app/lib/auth";
 
 
@@ -28,14 +28,15 @@ export async function createInvoice(formData) {
   };
   // Spreadsheet IDs
   const anakTarget=rawFormData.nama;
-  const anakTertarget=AmbilTargetAnak(anakTarget);
-  const session = await auth();
-  const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
-  const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
-  ? anakTertarget:[spreadsheetIdA]; //spreadsheet target
+  const anakTertarget=await AmbilTargetAnak(anakTarget);
+  // console.log(anakTertarget);
+  // cek guru atau ortu
+  const ambilEmailDanRole = await AmbilSesi(); 
+  const spreadsheetIdB =ambilEmailDanRole.role === 'guru'
+  ? anakTertarget:ambilEmailDanRole.spreadsheetId; //spreadsheet target
   // Logika untuk menentukan spreadsheet yang akan digunakan
-  const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
-    ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
+  const spreadsheetIds = ambilEmailDanRole.role === 'guru'
+    ? [ambilEmailDanRole.spreadsheetId, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
     : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
   try {
     for (const SPREADSHEET_ID of spreadsheetIds) {
@@ -81,14 +82,14 @@ export async function updateBakat(formData) {
   };
   // Spreadsheet IDs
   const anakTarget=rawFormData.nama;
-  const anakTertarget=AmbilTargetAnak(anakTarget);
-  const session = await auth();
+  console.log(anakTarget)
+  const anakTertarget=await AmbilTargetAnak(anakTarget);
   const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
-  const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
-  ? anakTertarget:[spreadsheetIdA]; //spreadsheet target
+  const spreadsheetIdB =spreadsheetIdA.role === "guru"
+  ? anakTertarget:spreadsheetIdA.spreadsheetId; //spreadsheet target
   // Logika untuk menentukan spreadsheet yang akan digunakan
-  const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
-    ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
+  const spreadsheetIds = spreadsheetIdA.role === "guru"
+    ? [spreadsheetIdA.spreadsheetId, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
     : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
   try {
     for (const SPREADSHEET_ID of spreadsheetIds) {
@@ -130,16 +131,16 @@ export async function updateBakat(formData) {
 export async function deleteBakatById(formData) {
   const idToDel = formData.get("id_bakat");
   const id= formData.get("id");
-  // console.log(idToDel);
+  console.log(idToDel);
   // console.log(id);
-  const anakTertarget=AmbilTargetAnak(idToDel);
+  const anakTertarget=await AmbilTargetAnak(idToDel);
   // console.log(anakTertarget);
   const session = await auth();
   const spreadsheetIdA=await AmbilSesi();
-  const spreadsheetIdB =session.user.email === "bimbellb3r@gmail.com"
-  ? anakTertarget:[spreadsheetIdA]; //spreadsheet target
-  const spreadsheetIds = session.user.email === "bimbellb3r@gmail.com"
-    ? [spreadsheetIdA, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
+  const spreadsheetIdB =spreadsheetIdA.role === "guru"
+  ? anakTertarget:spreadsheetIdA.spreadsheetId; //spreadsheet target
+  const spreadsheetIds = spreadsheetIdA.role === "guru"
+    ? [spreadsheetIdA.spreadsheetId, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
     : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
   // jika sesi adalah guru maka ambil spreadsheet guru+spreadsheed anak, selain itu sesuai sesi.
   try {

@@ -1,62 +1,66 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { auth } from "@/app/lib/auth";
-// export async function AmbilSesi() {
-//   const session = await auth();
-//   // console.log(session.user.email)
-//   const emailBySession=session.user.email;
-//   if(emailBySession==='ayoberkarya@gmail.com'){
-//     const SPREADSHEET_ID='1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro';
-//     return SPREADSHEET_ID
-//   }else{
-//     const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
-//     return SPREADSHEET_ID
-//   }
-// }
-export async function AmbilSesi() {
+// On Vercel, the maximum number of environment variables you can have per environment (like Production, Preview, or Development) is 1,000 per project. Additionally, the total size of your environment variables (including both the names and values) is limited to 64KB. This size limit applies per deployment and to any single environment variable within the project. googlesheet API,300 requests per minute per project, with a limit of 60 requests per minute per user.
+export async function AmbilSesi() { //khusus ortu
   const session = await auth();
   const emailBySession = session.user.email;
 
   // Mapping email ke SPREADSHEET_ID
   const spreadsheetMap = {
-    'ayoberkarya@gmail.com': '1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro',
-    'ikhwchemist@gmail.com': process.env.NEXT_PUBLIC_SPREADSHEET_ID,
-    'bimbellb3r@gmail.com':'1x2pbU-NULZ_B8-Ug2HEe4yVcogcst-oFXOuMfQ281Hc' //guru
+    //email ortu
+    'ikhwchemist@gmail.com': {
+      role:'ortu',
+      spreadsheetId:process.env.NEXT_PUBLIC_SPREADSHEET_ID
+    },
+    //email guru
+    'bimbellb3r@gmail.com':{
+      role:'guru',
+      spreadsheetId:'1x2pbU-NULZ_B8-Ug2HEe4yVcogcst-oFXOuMfQ281Hc'
+    },
+    'yusuf.nough18@gmail.com ':{
+      role:'guru',
+      spreadsheetId:'1x2pbU-NULZ_B8-Ug2HEe4yVcogcst-oFXOuMfQ281Hc'
+    } 
   };
-
-  // On Vercel, the maximum number of environment variables you can have per environment (like Production, Preview, or Development) is 1,000 per project. Additionally, the total size of your environment variables (including both the names and values) is limited to 64KB. This size limit applies per deployment and to any single environment variable within the project. googlesheet API,300 requests per minute per project, with a limit of 60 requests per minute per user.
-
   // Memeriksa apakah email pengguna ada dalam map
   const SPREADSHEET_ID = spreadsheetMap[emailBySession];
 
   // Jika tidak ditemukan, lempar error
   if (!SPREADSHEET_ID) {
-    throw new Error(`Spreadsheet ID not found for email: ${emailBySession}`);
+    throw new Error(`Spreadsheet IDOrtu atau guru not found for email: ${emailBySession}`);
   }
 
   return SPREADSHEET_ID;
 }
 
-export function AmbilTargetAnak(anakTarget) {;
+export async function AmbilTargetAnak(anakTarget) {;
   const emailBySession = anakTarget;
 
   // Mapping email ke SPREADSHEET_ID
   const spreadsheetMap = {
     'nouval': '1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro',
-    'aqila': process.env.NEXT_PUBLIC_SPREADSHEET_ID
+    'aqila': process.env.NEXT_PUBLIC_SPREADSHEET_ID,
+    'yuzarsif':'16mwB46HNp4si3PxM4_XHEn4Jy1bNnVBZjQ09FKn2jnQ',
+    'yusuf':'1gekeqQ9t1tN0zEzKSvVNvxIhycNYJ_we1jVzZzvnEYA',
+    'rizki':'1GoG-NkaoHqZzwady4fQtOWVt0X5LdpLF-AdNq14tJzg',
+    'najma':'1yyJad1tW4b7vRi_wCX2dta6DR42sDso9eSWOt8plw3M',
+    'maman':'1EccOiTstxHbG7fJZz4eVTt3bErzVZEj7F_ph5N22Nxw',
+    'khairul':'1EnUOvhu6yYxj42Yf-lS5kruI9-ZFWooz4357MsHdB_k',
+    'haikal':'1iRLF9RESVjplshFepQ02gJ4PkEcAKAVWlTRKnsXVD48',
+    'ghazi':'1NeA4aZe2srb5MJvVuz5yn7spbA-S6qI4miVoFwcTscY',
+    'acin':'1ukndPZd2tw52COc6kHIfjNfnzcWbKbOi4nf1aAk-EQ8'
   };
-
-  // On Vercel, the maximum number of environment variables you can have per environment (like Production, Preview, or Development) is 1,000 per project. Additionally, the total size of your environment variables (including both the names and values) is limited to 64KB. This size limit applies per deployment and to any single environment variable within the project. googlesheet API,300 requests per minute per project, with a limit of 60 requests per minute per user.
-
-  // Memeriksa apakah email pengguna ada dalam map
-  const SPREADSHEET_IDTARGET = spreadsheetMap[emailBySession];
-
-  // Jika tidak ditemukan, lempar error
+  let SPREADSHEET_IDTARGET = spreadsheetMap[emailBySession];
   if (!SPREADSHEET_IDTARGET) {
-    throw new Error(`Spreadsheet ID not found for email: ${emailBySession}`);
+    // throw new Error(`Spreadsheet IDAnak not found for email: ${emailBySession}`);
+    const ambilEmailDanRole = await AmbilSesi();
+    SPREADSHEET_IDTARGET=ambilEmailDanRole.spreadsheetId;
   }
 
   return SPREADSHEET_IDTARGET;
 }
+
+
 
 const SHEET_ID1 = process.env.NEXT_PUBLIC_SHEET_ID1;
 const SHEET_ID2 = process.env.NEXT_PUBLIC_SHEET_ID_DATAANAK;
@@ -67,7 +71,8 @@ const SHEET_ID12 = process.env.NEXT_PUBLIC_SHEET_ID_DATAOBSERVER;
 
 export async function getDataSheet() {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -94,7 +99,8 @@ export async function getDataSheet() {
 
 export async function appendToSpreadsheet(newRow) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -115,7 +121,8 @@ export async function appendToSpreadsheet(newRow) {
 
 export async function delDataSheet(tanggal) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -143,7 +150,8 @@ export async function delDataSheet(tanggal) {
 export async function updateDataSheet(newRow) {
   const tanggal = newRow.tanggal;
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -180,7 +188,8 @@ export async function getFilteredBakatData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -238,7 +247,8 @@ export async function getFilteredBakatData(query, currentPage) {
 
 export async function getBakatData(query) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -270,7 +280,8 @@ export async function getBakatData(query) {
 
 export async function getBakatDataById(idBakatUpdate) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -295,7 +306,8 @@ export async function getBakatDataById(idBakatUpdate) {
 
 export async function getBakatDataByNama(namaAnak) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -355,7 +367,8 @@ export async function getBakatDataByNama(namaAnak) {
 
 export async function getAllBakat() {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -380,7 +393,8 @@ export async function getAllBakat() {
 
 export async function fetchDataAnaks() {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -403,7 +417,8 @@ export async function fetchDataAnaks() {
 
 export async function fetchDataObservers() {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -426,7 +441,8 @@ export async function fetchDataObservers() {
 
 export async function fetchNamaBakats() {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -450,7 +466,8 @@ export async function fetchNamaBakats() {
 // ambil data definisi bakat
 export async function getBakatDataByDefinisi(jenisBakat) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId; // Mengambil SPREADSHEET_ID dari AmbilSesi()
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
