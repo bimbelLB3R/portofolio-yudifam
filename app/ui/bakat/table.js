@@ -96,7 +96,7 @@ export default async function BakatTable({ query, currentPage }) {
                     <UpdateBakat id={bakat.idBakat} />
                   </div>
                   <div className="flex items-center justify-center">
-                    <DeleteBakat iddel={`${bakat.idBakat}."-".${bakat.nama}`} />
+                    <DeleteBakat iddel={bakat.nama} id={bakat.idBakat} />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">

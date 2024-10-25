@@ -13,7 +13,7 @@ export async function AmbilSesi() { //khusus ortu
       spreadsheetId:process.env.NEXT_PUBLIC_SPREADSHEET_ID
     },
     //email guru
-    'bimbellb3r@gmail.com':{
+    'ayoberkarya@gmail.com':{
       role:'guru',
       spreadsheetId:'1x2pbU-NULZ_B8-Ug2HEe4yVcogcst-oFXOuMfQ281Hc'
     },

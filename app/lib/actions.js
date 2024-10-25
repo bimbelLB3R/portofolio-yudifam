@@ -82,7 +82,7 @@ export async function updateBakat(formData) {
   };
   // Spreadsheet IDs
   const anakTarget=rawFormData.nama;
-  console.log(anakTarget)
+  // console.log(anakTarget)
   const anakTertarget=await AmbilTargetAnak(anakTarget);
   const spreadsheetIdA = await AmbilSesi(); //spreaadsheet berdasar sesi
   const spreadsheetIdB =spreadsheetIdA.role === "guru"
@@ -131,7 +131,7 @@ export async function updateBakat(formData) {
 export async function deleteBakatById(formData) {
   const idToDel = formData.get("id_bakat");
   const id= formData.get("id");
-  console.log(idToDel);
+  // console.log(idToDel);
   // console.log(id);
   const anakTertarget=await AmbilTargetAnak(idToDel);
   // console.log(anakTertarget);
