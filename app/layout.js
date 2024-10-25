@@ -5,8 +5,8 @@ import SessionWrapper from "./ui/sessionWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Yudi's Fams Portofolio",
-  description: "Rekam jejak berdasarkan FBE",
+  title: "SATT | Portofolio Keluarga",
+  description: "Rekam jejak berdasarkan FBE dan Talents Mapping",
 };
 
 export default function RootLayout({ children }) {

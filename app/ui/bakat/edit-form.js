@@ -47,6 +47,7 @@ export default function EditBakatForm({
             <select
               id="namaAnak"
               name="namaAnak"
+              disabled
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue={dataWillUpdate.nama[0]}
             >
@@ -218,6 +219,7 @@ export default function EditBakatForm({
             <select
               id="observer"
               name="observer"
+              disabled
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue={dataWillUpdate.observer[0]}
               required
