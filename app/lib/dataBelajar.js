@@ -13,7 +13,8 @@ export async function getFilteredBelajarData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -71,7 +72,8 @@ export async function getFilteredBelajarData(query, currentPage) {
 
 export async function getBelajarData(query) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -103,7 +105,8 @@ export async function getBelajarData(query) {
 
 export async function getBelajarDataById(idBelajarUpdate) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -130,7 +133,8 @@ export async function getBelajarDataById(idBelajarUpdate) {
 
 export async function getAllKategoriBelajar() {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({

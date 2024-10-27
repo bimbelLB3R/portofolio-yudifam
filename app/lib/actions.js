@@ -131,18 +131,13 @@ export async function updateBakat(formData) {
 export async function deleteBakatById(formData) {
   const idToDel = formData.get("id_bakat");
   const id= formData.get("id");
-  // console.log(idToDel);
-  // console.log(id);
   const anakTertarget=await AmbilTargetAnak(idToDel);
-  // console.log(anakTertarget);
-  const session = await auth();
   const spreadsheetIdA=await AmbilSesi();
   const spreadsheetIdB =spreadsheetIdA.role === "guru"
   ? anakTertarget:spreadsheetIdA.spreadsheetId; //spreadsheet target
   const spreadsheetIds = spreadsheetIdA.role === "guru"
-    ? [spreadsheetIdA.spreadsheetId, spreadsheetIdB] // Jika email adalah bimbellb3r@gmail.com
-    : [spreadsheetIdB]; // Selain itu, kirim hanya ke spreadsheetId A
-  // jika sesi adalah guru maka ambil spreadsheet guru+spreadsheed anak, selain itu sesuai sesi.
+    ? [spreadsheetIdA.spreadsheetId, spreadsheetIdB] 
+    : [spreadsheetIdB]; 
   try {
     for (const SPREADSHEET_ID of spreadsheetIds) {
     // const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()

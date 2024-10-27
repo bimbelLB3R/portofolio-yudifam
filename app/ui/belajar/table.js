@@ -72,7 +72,7 @@ export default async function BelajarTable({ query, currentPage }) {
                       <UpdateBelajar id={belajar.id_belajar} />
                     </div>
                     <div className="flex items-center justify-center">
-                      <DeleteBelajar iddel={belajar.id_belajar} />
+                      <DeleteBelajar  iddel={belajar.nama} id={belajar.id_belajar}/>
                     </div>
                   </div>
                 </div>
@@ -152,7 +152,7 @@ export default async function BelajarTable({ query, currentPage }) {
                         <UpdateBelajar id={belajar.id_belajar} />
                       </div>
                       <div className="flex items-center justify-center">
-                        <DeleteBelajar iddel={belajar.id_belajar} />
+                        <DeleteBelajar iddel={belajar.nama} id={belajar.id_belajar} />
                       </div>
                     </div>
                   </td>
