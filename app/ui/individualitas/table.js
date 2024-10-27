@@ -141,7 +141,7 @@ export default async function IndividualitasTable({ query, currentPage }) {
                     </div>
                     <div className="flex items-center justify-center">
                       <DeleteIndividualitas
-                        iddel={individualitas.id_individualitas}
+                        iddel={individualitas.nama} id={individualitas.id_individualitas}
                       />
                     </div>
                   </div>
@@ -231,7 +231,7 @@ export default async function IndividualitasTable({ query, currentPage }) {
                       </div>
                       <div className="flex items-center justify-center">
                         <DeleteIndividualitas
-                          iddel={individualitas.id_individualitas}
+                          iddel={individualitas.nama} id={individualitas.id_individualitas}
                         />
                       </div>
                     </div>

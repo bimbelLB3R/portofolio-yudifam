@@ -135,7 +135,7 @@ export default async function EstetikaTable({ query, currentPage }) {
                       <UpdateEstetika id={estetika.id_estetika} />
                     </div>
                     <div className="flex items-center justify-center">
-                      <DeleteEstetika iddel={estetika.id_estetika} />
+                      <DeleteEstetika iddel={estetika.nama} id={estetika.id_estetika} />
                     </div>
                   </div>
                 </div>
@@ -215,7 +215,7 @@ export default async function EstetikaTable({ query, currentPage }) {
                         <UpdateEstetika id={estetika.id_estetika} />
                       </div>
                       <div className="flex items-center justify-center">
-                        <DeleteEstetika iddel={estetika.id_estetika} />
+                        <DeleteEstetika iddel={estetika.nama} id={estetika.id_estetika} />
                       </div>
                     </div>
                   </td>

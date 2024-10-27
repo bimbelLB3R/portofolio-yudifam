@@ -109,7 +109,7 @@ export async function updateBelajar(formData) {
 export async function deleteBelajarById(formData) {
   const idToDel = formData.get("id_belajar"); //nama
   const id= formData.get("id"); //id
-  console.log(id)
+  // console.log(id)
   const anakTertarget=await AmbilTargetAnak(idToDel);
   const spreadsheetIdA=await AmbilSesi();
   const spreadsheetIdB =spreadsheetIdA.role === "guru"
