@@ -28,7 +28,7 @@ export default async function Page() {
   return (
     <>
       {session ? (
-        `Selamat Datang ${session.user.name}`
+        <p>Selamat Datang Keluarga <span className="font bold text-orange-600">{`${session.user.name}`}</span></p>
       ) : (
         <Link
           href={"/api/auth/signin"}

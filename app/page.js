@@ -10,15 +10,7 @@ import { CardsSkeleton } from "./ui/skeletons";
 import { CardWrapper } from "./ui/dashboard/cards";
 
 export default async function Home() {
-  const newRow = {
-    tanggal: "2024-03-17",
-    aktivitas: "Libur di rumahkuuuu",
-    cerita: "Seru sekaliiiii",
-  };
-  // const data = await getDataSheet();
-  // await appendToSpreadsheet(newRow);
-  // await delDataSheet(newRow.tanggal);
-  // await updateDataSheet(newRow);
+  
   return (
     <>
       <p className={`text-center ${inter.className}`}>HOME</p>;
