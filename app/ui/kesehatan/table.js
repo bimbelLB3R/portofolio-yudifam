@@ -73,7 +73,7 @@ export default async function KesehatanTable({ query, currentPage }) {
                       <UpdateKesehatan id={sehat.id_penyakit} />
                     </div>
                     <div className="flex items-center justify-center">
-                      <DeleteKesehatan iddel={sehat.id_penyakit} />
+                      <DeleteKesehatan iddel={sehat.nama} id={sehat.id_penyakit} />
                     </div>
                   </div>
                 </div>
@@ -155,7 +155,7 @@ export default async function KesehatanTable({ query, currentPage }) {
                         <UpdateKesehatan id={sehat.id_penyakit} />
                       </div>
                       <div className="flex items-center justify-center">
-                        <DeleteKesehatan iddel={sehat.id_penyakit} />
+                        <DeleteKesehatan iddel={sehat.nama} id={sehat.id_penyakit} />
                       </div>
                     </div>
                   </td>

@@ -136,7 +136,7 @@ export default async function PerkembanganTable({ query, currentPage }) {
                     </div>
                     <div className="flex items-center justify-center">
                       <DeletePerkembangan
-                        iddel={perkembangan.id_perkembangan}
+                        iddel={perkembangan.nama} id={perkembangan.id_perkembangan}
                       />
                     </div>
                   </div>
@@ -224,7 +224,7 @@ export default async function PerkembanganTable({ query, currentPage }) {
                       </div>
                       <div className="flex items-center justify-center">
                         <DeletePerkembangan
-                          iddel={perkembangan.id_perkembangan}
+                          iddel={perkembangan.nama} id={perkembangan.id_perkembangan}
                         />
                       </div>
                     </div>

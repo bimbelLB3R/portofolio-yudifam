@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { UpdateSeksualitas } from "../ui/seksualitas/buttons";
 import { AmbilSesi } from "./data";
+import { AmbilTargetAnak } from "./data";
 const SHEET_ID8 = process.env.NEXT_PUBLIC_SHEET_ID_DATASEKSUALITAS;
 
 
@@ -20,8 +21,16 @@ export async function createSeksualitas(formData) {
     uraian_seksualitas: formData.get("uraian_seksualitas"),
     updated_at: "",
   };
+  const anakTarget=rawFormData.nama;
+    const anakTertarget=await AmbilTargetAnak(anakTarget);
+    const ambilEmailDanRole = await AmbilSesi();
+    const spreadsheetIdB =ambilEmailDanRole.role === 'guru'
+      ? anakTertarget:ambilEmailDanRole.spreadsheetId; 
+    const spreadsheetIds = ambilEmailDanRole.role === 'guru'
+      ? [ambilEmailDanRole.spreadsheetId, spreadsheetIdB]
+      : [spreadsheetIdB]; 
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    for (const SPREADSHEET_ID of spreadsheetIds) {
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -34,6 +43,7 @@ export async function createSeksualitas(formData) {
     // console.log(sheet);
 
     await sheet.addRow(rawFormData);
+  }
   } catch (error) {
     console.error("Append Error:", error);
     throw new Error("Gagal create data seksualitas.");
@@ -56,8 +66,16 @@ export async function updateSeksualitas(formData) {
     uraian_seksualitas: formData.get("uraian_seksualitas"),
     updated_at: date,
   };
+  const anakTarget=rawFormData.nama;
+  const anakTertarget=await AmbilTargetAnak(anakTarget);
+  const spreadsheetIdA = await AmbilSesi(); 
+  const spreadsheetIdB =spreadsheetIdA.role === "guru"
+  ? anakTertarget:spreadsheetIdA.spreadsheetId;
+  const spreadsheetIds = spreadsheetIdA.role === "guru"
+    ? [spreadsheetIdA.spreadsheetId, spreadsheetIdB] 
+    : [spreadsheetIdB];
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    for (const SPREADSHEET_ID of spreadsheetIds) {
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     await doc.useServiceAccountAuth({
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -81,6 +99,7 @@ export async function updateSeksualitas(formData) {
       rowToUpdate.updated_at = rawFormData.updated_at;
       await rowToUpdate.save();
     }
+  }
   } catch (error) {
     console.error("Append Error:", error);
     throw new Error("Gagal Up date data seksualitas");
@@ -91,11 +110,18 @@ export async function updateSeksualitas(formData) {
 
 // delete
 export async function deleteSeksualitasById(formData) {
-  // throw new Error("Failed to Delete Invoice");
-  const idToDel = formData.get("id_seksualitas");
-  // console.log(`iddel=${idToDel}`);
+  const idToDel = formData.get("id_seksualitas"); //nama
+  const id= formData.get("id"); //id
+  // console.log(id)
+  const anakTertarget=await AmbilTargetAnak(idToDel);
+  const spreadsheetIdA=await AmbilSesi();
+  const spreadsheetIdB =spreadsheetIdA.role === "guru"
+  ? anakTertarget:spreadsheetIdA.spreadsheetId; //spreadsheet target
+  const spreadsheetIds = spreadsheetIdA.role === "guru"
+    ? [spreadsheetIdA.spreadsheetId, spreadsheetIdB] 
+    : [spreadsheetIdB]; 
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    for (const SPREADSHEET_ID of spreadsheetIds) {
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -108,11 +134,12 @@ export async function deleteSeksualitasById(formData) {
 
     const sheet = doc.sheetsById[SHEET_ID8]; // Misalnya, mengambil lembar kerja pertama
     const rows = await sheet.getRows(); // Mendapatkan semua baris dari lembar kerja
-    const rowToDel = rows.find((item) => item.id_seksualitas === idToDel);
+    const rowToDel = rows.find((item) => item.id_seksualitas === id);
     // console.log(rowToDel);
     if (rowToDel) {
       await rowToDel.del();
     }
+  }
     // console.log(rowToDelAll);
   } catch (error) {
     console.error("Database Error:", error);

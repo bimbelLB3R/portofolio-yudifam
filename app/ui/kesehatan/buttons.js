@@ -26,14 +26,15 @@ export function UpdateKesehatan({ id }) {
   );
 }
 
-export function DeleteKesehatan({ iddel }) {
+export function DeleteKesehatan({ iddel,id }) {
   // const idBakatwillDel = id;
   // console.log(`bakatskirim=${bakats}`);
   // const deleteBakatWithId = deleteBakatById.bind(null, id);
   return (
     <>
       <form action={deleteKesehatanById}>
-        <input type="hidden" name="id_penyakit" value={iddel} />
+      <input type="hidden" name="id_kesehatan" value={iddel} />
+      <input type="hidden" name="id" value={id} />
         <button className="rounded-md border p-2 hover:bg-gray-100">
           <span className="sr-only">Delete</span>
           <TrashIcon className="w-5" />

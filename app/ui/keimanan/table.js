@@ -72,7 +72,7 @@ export default async function KeimananTable({ query, currentPage }) {
                       <UpdateKeimanan id={iman.id_keimanan} />
                     </div>
                     <div className="flex items-center justify-center">
-                      <DeleteKeimanan iddel={iman.id_keimanan} />
+                      <DeleteKeimanan iddel={iman.nama} id={iman.id_keimanan} />
                     </div>
                   </div>
                 </div>
@@ -152,7 +152,7 @@ export default async function KeimananTable({ query, currentPage }) {
                         <UpdateKeimanan id={iman.id_keimanan} />
                       </div>
                       <div className="flex items-center justify-center">
-                        <DeleteKeimanan iddel={iman.id_keimanan} />
+                        <DeleteKeimanan iddel={iman.nama} id={iman.id_keimanan} />
                       </div>
                     </div>
                   </td>

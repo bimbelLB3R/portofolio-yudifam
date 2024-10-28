@@ -26,14 +26,15 @@ export function UpdateKeimanan({ id }) {
   );
 }
 
-export function DeleteKeimanan({ iddel }) {
+export function DeleteKeimanan({ iddel,id }) {
   // const idBakatwillDel = id;
   // console.log(`bakatskirim=${bakats}`);
   // const deleteBakatWithId = deleteBakatById.bind(null, id);
   return (
     <>
       <form action={deleteKeimananById}>
-        <input type="hidden" name="id_keimanan" value={iddel} />
+      <input type="hidden" name="id_keimanan" value={iddel} />
+      <input type="hidden" name="id" value={id} />
         <button className="rounded-md border p-2 hover:bg-gray-100">
           <span className="sr-only">Delete</span>
           <TrashIcon className="w-5" />

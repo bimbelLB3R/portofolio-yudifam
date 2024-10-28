@@ -1,5 +1,6 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { AmbilSesi } from "./data";
+import { AmbilTargetAnak } from "./data";
 const SHEET_ID4 = process.env.NEXT_PUBLIC_SHEET_ID_DATAKESEHATAN;
 
 
@@ -10,7 +11,8 @@ export async function getFilteredKesehatanData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -68,7 +70,8 @@ export async function getFilteredKesehatanData(query, currentPage) {
 
 export async function getKesehatanData(query) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -100,7 +103,8 @@ export async function getKesehatanData(query) {
 
 export async function getKesehatanDataById(idKesehatanUpdate) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({

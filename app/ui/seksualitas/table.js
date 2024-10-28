@@ -135,7 +135,7 @@ export default async function SeksualitasTable({ query, currentPage }) {
                       <UpdateSeksualitas id={seksualitas.id_seksualitas} />
                     </div>
                     <div className="flex items-center justify-center">
-                      <DeleteSeksualitas iddel={seksualitas.id_seksualitas} />
+                      <DeleteSeksualitas iddel={seksualitas.nama} id={seksualitas.id_seksualitas} />
                     </div>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export default async function SeksualitasTable({ query, currentPage }) {
                         <UpdateSeksualitas id={seksualitas.id_seksualitas} />
                       </div>
                       <div className="flex items-center justify-center">
-                        <DeleteSeksualitas iddel={seksualitas.id_seksualitas} />
+                        <DeleteSeksualitas iddel={seksualitas.nama} id={seksualitas.id_seksualitas} />
                       </div>
                     </div>
                   </td>

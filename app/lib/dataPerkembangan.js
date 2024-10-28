@@ -10,7 +10,8 @@ export async function getFilteredPerkembanganData(query, currentPage) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // console.log(`offset=${offset}`);
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -68,7 +69,8 @@ export async function getFilteredPerkembanganData(query, currentPage) {
 
 export async function getPerkembanganData(query) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
@@ -100,7 +102,8 @@ export async function getPerkembanganData(query) {
 
 export async function getPerkembanganDataById(idPerkembanganUpdate) {
   try {
-    const SPREADSHEET_ID = await AmbilSesi(); // Mengambil SPREADSHEET_ID dari AmbilSesi()
+    const ambilEmailDanRole = await AmbilSesi();
+    const SPREADSHEET_ID = ambilEmailDanRole.spreadsheetId;
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
     // Autentikasi dengan kredensial
     await doc.useServiceAccountAuth({
