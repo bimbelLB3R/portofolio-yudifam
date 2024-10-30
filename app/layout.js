@@ -15,14 +15,7 @@ export const metadata = {
     title: "SATT | Portofolio Keluarga",
     description: "Rekam jejak berdasarkan FBE dan Talents Mapping",
     url: "https://portofolio-yudifam.vercel.app", // ganti dengan URL situs Anda
-    images: [
-      {
-        url: openGraphImage,
-        width: 800,
-        height: 600,
-        alt: "SATT - Portofolio Keluarga",
-      },
-    ],
+    images: openGraphImage
   },
 };
 
