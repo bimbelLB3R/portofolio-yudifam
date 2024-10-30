@@ -9,6 +9,10 @@ import { getKesehatanData } from "@/app/lib/dataKesehatan";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+export const metadata={
+  title:"Kesehatan"
+}
+
 export default async function Kesehatan({ searchParams }) {
   const session = await auth();
   if (!session) {

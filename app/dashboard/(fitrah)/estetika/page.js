@@ -9,6 +9,10 @@ import { getEstetikaData } from "@/app/lib/dataEstetika";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+export const metadata={
+  title:"Estetika"
+}
+
 export default async function Estetika({ searchParams }) {
   const session = await auth();
   if (!session) {

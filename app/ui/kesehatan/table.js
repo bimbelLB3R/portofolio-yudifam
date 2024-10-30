@@ -5,6 +5,13 @@ import { UpdateKesehatan, DeleteKesehatan } from "./buttons";
 // import { gambarAnak } from "../fotoAnak/page";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
+import {cache} from 'react';
+
+
+const getDataTable=cache(async(query,currentPage)=>{
+  const data= await getFilteredKesehatanData(query,currentPage);
+  return data
+})
 
 export default async function KesehatanTable({ query, currentPage }) {
   const dataanaks = await fetchDataAnaks();
@@ -34,7 +41,7 @@ export default async function KesehatanTable({ query, currentPage }) {
 
   // console.log(currentPage);
   // const gambarAnakku = await gambarAnak();
-  const kesehatans = await getFilteredKesehatanData(query, currentPage);
+  const kesehatans = await getDataTable(query, currentPage);
   // console.log(kesehatans);
   return (
     <div className="mt-6 flow-root">

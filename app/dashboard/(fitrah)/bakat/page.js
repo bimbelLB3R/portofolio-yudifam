@@ -9,6 +9,11 @@ import { getBakatData } from "@/app/lib/data";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+
+export const metadata={
+  title:"Bakat"
+}
+
 export default async function Bakat({ searchParams }) {
   const session = await auth();
   // console.log(session)
@@ -19,6 +24,7 @@ export default async function Bakat({ searchParams }) {
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getBakatData(query);
   // console.log(totalPages);
+   
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-center">

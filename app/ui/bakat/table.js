@@ -14,6 +14,12 @@ import Link from "next/link";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
 import BakatDominan from "./dominan";
+import {cache} from 'react';
+
+const getDataTable=cache(async(query,currentPage)=>{
+  const data= await getFilteredBakatData(query,currentPage);
+  return data
+})
 
 export default async function BakatTable({ query, currentPage }) {
   const dataanaks = await fetchDataAnaks();
@@ -42,7 +48,8 @@ export default async function BakatTable({ query, currentPage }) {
   }, {});
 
   // const gambarAnakku = await gambarAnak();
-  const bakats = await getFilteredBakatData(query, currentPage);
+  // const bakats = await getFilteredBakatData(query, currentPage);
+  const bakats = await getDataTable(query, currentPage);
   const namaNama=bakats.map((nama)=>nama.nama);
   // console.log(namaNama);
   return (

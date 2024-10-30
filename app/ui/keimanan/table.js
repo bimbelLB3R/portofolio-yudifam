@@ -4,6 +4,13 @@ import Image from "next/image";
 import { UpdateKeimanan, DeleteKeimanan } from "./buttons";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
+import {cache} from 'react';
+
+
+const getDataTable=cache(async(query,currentPage)=>{
+  const data= await getFilteredKeimananData(query,currentPage);
+  return data
+})
 
 export default async function KeimananTable({ query, currentPage }) {
   const dataanaks = await fetchDataAnaks();
@@ -33,7 +40,7 @@ export default async function KeimananTable({ query, currentPage }) {
 
   // console.log(currentPage);
   // const gambarAnakku = await gambarAnak();
-  const keimanans = await getFilteredKeimananData(query, currentPage);
+  const keimanans = await getDataTable(query, currentPage);
   // console.log(keimanans);
   return (
     <div className="mt-6 flow-root">

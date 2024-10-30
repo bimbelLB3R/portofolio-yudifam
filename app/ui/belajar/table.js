@@ -5,6 +5,12 @@ import { UpdateBelajar, DeleteBelajar } from "./buttons";
 // import { gambarAnak } from "../fotoAnak/page";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
+import {cache} from 'react';
+
+const getDataTable=cache(async(query,currentPage)=>{
+  const data= await getFilteredBelajarData(query,currentPage);
+  return data
+})
 
 export default async function BelajarTable({ query, currentPage }) {
   const dataanaks = await fetchDataAnaks();
@@ -33,7 +39,7 @@ export default async function BelajarTable({ query, currentPage }) {
   }, {});
 
   // const gambarAnakku = await gambarAnak();
-  const belajars = await getFilteredBelajarData(query, currentPage);
+  const belajars = await getDataTable(query, currentPage);
   // console.log(belajars);
   return (
     <div className="mt-6 flow-root">

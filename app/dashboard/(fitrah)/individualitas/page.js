@@ -9,6 +9,10 @@ import { getIndividualitasData } from "@/app/lib/dataIndividualitas";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+export const metadata={
+  title:"Individualitas"
+}
+
 export default async function Individualitas({ searchParams }) {
   const session = await auth();
   if (!session) {

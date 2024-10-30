@@ -9,6 +9,10 @@ import { getPerkembanganData } from "@/app/lib/dataPerkembangan";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+export const metadata={
+  title:"Perkembangan"
+}
+
 export default async function Perkembangan({ searchParams }) {
   const session = await auth();
   if (!session) {

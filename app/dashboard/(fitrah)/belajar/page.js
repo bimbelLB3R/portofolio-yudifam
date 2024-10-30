@@ -9,6 +9,10 @@ import { getBelajarData } from "@/app/lib/dataBelajar";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+export const metadata={
+  title:"Belajar"
+}
+
 export default async function Belajar({ searchParams }) {
   const session = await auth();
   if (!session) {

@@ -9,6 +9,10 @@ import { getKeimananData } from "@/app/lib/dataKeimanan";
 import { auth } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 
+export const metadata={
+  title:"Keimanan"
+}
+
 export default async function Keimanan({ searchParams }) {
   const session = await auth();
   if (!session) {

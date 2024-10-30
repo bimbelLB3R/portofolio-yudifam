@@ -5,6 +5,13 @@ import { UpdateSeksualitas, DeleteSeksualitas } from "./buttons";
 // import { gambarAnak } from "../fotoAnak/page";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
+import {cache} from 'react';
+
+
+const getDataTable=cache(async(query,currentPage)=>{
+  const data= await getFilteredSeksualitasData(query,currentPage);
+  return data
+})
 
 // Fungsi untuk menghitung usia dari tanggal lahir
 function hitungUsia(tanggalLahir) {
@@ -91,7 +98,7 @@ export default async function SeksualitasTable({ query, currentPage }) {
   }, {});
 
   // const gambarAnakku = await gambarAnak();
-  const seksualitass = await getFilteredSeksualitasData(query, currentPage);
+  const seksualitass = await getDataTable(query, currentPage);
   // console.log(belajars);
   return (
     <div className="mt-6 flow-root">

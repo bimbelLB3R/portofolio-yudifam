@@ -5,7 +5,13 @@ import { UpdateEstetika, DeleteEstetika } from "./buttons";
 // import { gambarAnak } from "../fotoAnak/page";
 import fotoDefault from "/app/ui/fotoAnak/default.png";
 import { fetchDataAnaks } from "@/app/lib/data";
+import {cache} from 'react';
 
+
+const getDataTable=cache(async(query,currentPage)=>{
+  const data= await getFilteredEstetikaData(query,currentPage);
+  return data
+})
 // Fungsi untuk menghitung usia dari tanggal lahir
 function hitungUsia(tanggalLahir) {
   const hariIni = new Date();
@@ -91,7 +97,7 @@ export default async function EstetikaTable({ query, currentPage }) {
   }, {});
 
   // const gambarAnakku = await gambarAnak();
-  const estetikas = await getFilteredEstetikaData(query, currentPage);
+  const estetikas = await getDataTable(query, currentPage);
   // console.log(belajars);
   return (
     <div className="mt-6 flow-root">
