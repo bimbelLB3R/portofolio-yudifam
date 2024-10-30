@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "./ui/sessionWrapper";
-import openGraphImage from "/app/timguru.jpg";
+import openGraphImage from "/app/ui/timguru.jpg";
 
 const inter = Inter({ subsets: ["latin"] });
 
