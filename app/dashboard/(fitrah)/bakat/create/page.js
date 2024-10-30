@@ -7,7 +7,12 @@ import {
   fetchNamaBakats,
 } from "@/app/lib/data";
 
+// function delay(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
 export default async function Page() {
+  // await delay(10000);
   const dataanaks = await fetchDataAnaks();
   const databakats = await fetchNamaBakats();
   const dataobservers = await fetchDataObservers();

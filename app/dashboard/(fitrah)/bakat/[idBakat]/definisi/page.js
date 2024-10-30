@@ -1,6 +1,18 @@
 import DefinisiBakatForm from "@/app/ui/bakat/definisi-form";
 import Breadcrumbs from "@/app/ui/bakat/bread-crumbs";
-import { getBakatDataByDefinisi, getBakatDataByNama } from "@/app/lib/data";
+import { getBakatDataByDefinisi, getAllBakat } from "@/app/lib/data";
+
+// export async function generateStaticParams() {
+//   const allJenisBakat = await getAllBakat();
+
+//   // Log params untuk debugging
+//   console.log("Generated static params:", allJenisBakat);
+
+//   return allJenisBakat.map((jenisBakat) => ({
+//     idBakat: jenisBakat,
+//   }));
+// }
+
 
 export default async function Page({ params }) {
   //params berisi jenisBakat

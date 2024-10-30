@@ -11,8 +11,8 @@ export default function Error({ error, reset }) {
 
   return (
     <main className="flex h-full flex-col items-center justify-center">
-      <h2 className="text-center">Email belum terdaftar!</h2>
-      <div className="flex  items-center justify-center space-x-4">
+      <h2 className="text-center">Something Wrong!</h2>
+      <div className="flex  items-center justify-center">
 
       <button
         className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
@@ -23,12 +23,7 @@ export default function Error({ error, reset }) {
       >
         Try again
       </button>
-      <Link
-          href={"/api/auth/signin"}
-          className={`mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400 ${inter.className}`}
-        >
-          Login With Google
-        </Link>
+      
       </div>
     </main>
   );
