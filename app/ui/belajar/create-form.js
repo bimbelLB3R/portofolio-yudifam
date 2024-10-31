@@ -7,7 +7,7 @@ import {
 import Button from "../button";
 import { createBelajar } from "@/app/lib/actionsBelajar";
 
-export default function Form({ dataanaks, datakategoris }) {
+export default function Form({ dataanaks, datakategoris,dataobservers }) {
   //datakategoris blm dikirim
   return (
     <form action={createBelajar}>
@@ -108,6 +108,30 @@ export default function Form({ dataanaks, datakategoris }) {
                 required
               ></textarea>
             </div>
+          </div>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="observer" className="mb-2 block text-sm font-medium">
+            Pilih Observer
+          </label>
+          <div className="relative">
+            <select
+              id="observer"
+              name="observer"
+              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue=""
+              required
+            >
+              <option value="" disabled>
+                Pilih Observer
+              </option>
+              {dataobservers.map((observer) => (
+                <option key={observer.id} value={observer.nama}>
+                  {observer.nama}
+                </option>
+              ))}
+            </select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
         </div>
       </div>

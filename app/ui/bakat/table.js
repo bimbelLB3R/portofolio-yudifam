@@ -51,7 +51,7 @@ export default async function BakatTable({ query, currentPage }) {
   // const bakats = await getFilteredBakatData(query, currentPage);
   const bakats = await getDataTable(query, currentPage);
   const namaNama=bakats.map((nama)=>nama.nama);
-  // console.log(namaNama);
+  // console.log(bakats);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">

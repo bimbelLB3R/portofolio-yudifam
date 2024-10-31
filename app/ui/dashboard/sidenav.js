@@ -15,10 +15,10 @@ export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
-        className="mb-2 flex h-20 items-end justify-start rounded-md   bg-slate-300 p-4 md:h-40"
+        className="mb-2 flex h-20 items-end justify-start rounded-md   bg-slate-100 p-4 md:h-40"
         href="/"
       >
-        <div className="w-32 text-black md:w-40">
+        <div className="w-[170px] text-black md:w-[170px]">
           <PortofolioLogo />
         </div>
       </Link>

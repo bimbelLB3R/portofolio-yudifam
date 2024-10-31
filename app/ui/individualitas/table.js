@@ -157,6 +157,9 @@ export default async function IndividualitasTable({ query, currentPage }) {
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-sm font-medium uppercase">AKTIVITAS</p>
+                    <p className="text-xs text-gray-400">
+                      Observed by {individualitas.observer}
+                    </p>
                     <p className="text-sm">
                       {individualitas.aktivitas_individualitas}
                     </p>
@@ -224,6 +227,9 @@ export default async function IndividualitasTable({ query, currentPage }) {
                   </td>
                   <td className="whitespace px-3 py-3">
                     {individualitas.aktivitas_individualitas}
+                    <p className="text-xs text-gray-400">
+                      Observed by {individualitas.observer}
+                    </p>
                   </td>
                   <td className="whitespace px-3 py-3">
                     {/* <BakatStatus status={individualitas.tindakan} /> */}

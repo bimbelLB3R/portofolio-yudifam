@@ -87,6 +87,9 @@ export default async function KeimananTable({ query, currentPage }) {
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-sm font-medium uppercase">AKTIVITAS</p>
+                    <p className="text-xs text-gray-400">
+                      Observed by {iman.observer}
+                    </p>
                     <p className="text-sm">{iman.aktivitas_keimanan}</p>
                   </div>
                 </div>
@@ -148,6 +151,9 @@ export default async function KeimananTable({ query, currentPage }) {
                   </td>
                   <td className="whitespace px-3 py-3">
                     {iman.aktivitas_keimanan}
+                    <p className="text-xs text-gray-400">
+                      Observed by {iman.observer}
+                    </p>
                   </td>
                   <td className="whitespace px-3 py-3">
                     {/* <BakatStatus status={iman.tindakan} /> */}

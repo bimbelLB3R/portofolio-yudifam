@@ -86,6 +86,9 @@ export default async function BelajarTable({ query, currentPage }) {
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-sm font-medium uppercase">AKTIVITAS</p>
+                    <p className="text-xs text-gray-400">
+                      Observed by {belajar.observer}
+                    </p>
                     <p className="text-sm">{belajar.aktivitas_belajar}</p>
                   </div>
                 </div>
@@ -147,6 +150,9 @@ export default async function BelajarTable({ query, currentPage }) {
                   </td>
                   <td className="whitespace px-3 py-3">
                     {belajar.aktivitas_belajar}
+                    <p className="text-xs text-gray-400">
+                      Observed by {belajar.observer}
+                    </p>
                   </td>
                   <td className="whitespace px-3 py-3">
                     {/* <BakatStatus status={belajar.tindakan} /> */}

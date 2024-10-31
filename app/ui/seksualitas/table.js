@@ -153,6 +153,9 @@ export default async function SeksualitasTable({ query, currentPage }) {
                     <p className="text-sm">
                       {seksualitas.aktivitas_seksualitas}
                     </p>
+                    <p className="text-xs text-gray-400">
+                      Observed by {seksualitas.observer}
+                    </p>
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
@@ -215,6 +218,9 @@ export default async function SeksualitasTable({ query, currentPage }) {
                   </td>
                   <td className="whitespace px-3 py-3">
                     {seksualitas.aktivitas_seksualitas}
+                    <p className="text-xs text-gray-400">
+                      Observed by {seksualitas.observer}
+                    </p>
                   </td>
                   <td className="whitespace px-3 py-3">
                     {/* <BakatStatus status={seksualitas.tindakan} /> */}

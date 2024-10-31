@@ -11,12 +11,6 @@ export const metadata = {
     template: "%s - SATT Families",
   },
   description: "Rekam jejak berdasarkan FBE dan Talents Mapping",
-  openGraph: {
-    title: "SATT | Portofolio Keluarga",
-    description: "Rekam jejak berdasarkan FBE dan Talents Mapping",
-    url: "https://portofolio-yudifam.vercel.app", // ganti dengan URL situs Anda
-    images: openGraphImage
-  },
 };
 
 export default function RootLayout({ children }) {

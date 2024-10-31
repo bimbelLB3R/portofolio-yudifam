@@ -74,6 +74,9 @@ export default async function KesehatanTable({ query, currentPage }) {
                     <p className="text-sm text-gray-500 uppercase">
                       {sehat.jenis_penyakit}
                     </p>
+                    <p className="text-xs text-gray-400">
+                      Observed by {sehat.observer}
+                    </p>
                   </div>
                   <div className="flex justify-end gap-2 p-1">
                     <div className="flex items-center justify-center">
@@ -150,6 +153,9 @@ export default async function KesehatanTable({ query, currentPage }) {
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {sehat.jenis_penyakit}
+                    <p className="text-xs text-gray-400">
+                      Observed by {sehat.observer}
+                    </p>
                   </td>
                   <td className="whitespace px-3 py-3">{sehat.penyebab}</td>
                   <td className="whitespace px-3 py-3">

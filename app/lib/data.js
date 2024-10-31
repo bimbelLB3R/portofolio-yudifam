@@ -1,5 +1,6 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { auth } from "@/app/lib/auth";
+import { notFound } from "next/navigation";
 // On Vercel, the maximum number of environment variables you can have per environment (like Production, Preview, or Development) is 1,000 per project. Additionally, the total size of your environment variables (including both the names and values) is limited to 64KB. This size limit applies per deployment and to any single environment variable within the project. googlesheet API,300 requests per minute per project, with a limit of 60 requests per minute per user.
 export async function AmbilSesi() { //khusus ortu
   const session = await auth();
@@ -15,11 +16,11 @@ export async function AmbilSesi() { //khusus ortu
     //email guru
     'ayoberkarya@gmail.com':{
       role:'guru',
-      spreadsheetId:'1x2pbU-NULZ_B8-Ug2HEe4yVcogcst-oFXOuMfQ281Hc'
+      spreadsheetId:'1vRFOwL04z-y7bFzn7Lx0EX1R7eJMDE8dcgZR0iEbHg8'
     },
     'yusuf.nough18@gmail.com ':{
       role:'guru',
-      spreadsheetId:'1x2pbU-NULZ_B8-Ug2HEe4yVcogcst-oFXOuMfQ281Hc'
+      spreadsheetId:'1vRFOwL04z-y7bFzn7Lx0EX1R7eJMDE8dcgZR0iEbHg8'
     } 
   };
   // Memeriksa apakah email pengguna ada dalam map
@@ -38,17 +39,17 @@ export async function AmbilTargetAnak(anakTarget) {;
 
   // Mapping email ke SPREADSHEET_ID
   const spreadsheetMap = {
-    'nouval': '1v40RH01aDnYcU5uE4F3_ysyIyZTEcnHE2oxW8brhjro',
+    'nouval': '',
     'aqila': process.env.NEXT_PUBLIC_SPREADSHEET_ID,
-    'yuzarsif':'16mwB46HNp4si3PxM4_XHEn4Jy1bNnVBZjQ09FKn2jnQ',
-    'yusuf':'1gekeqQ9t1tN0zEzKSvVNvxIhycNYJ_we1jVzZzvnEYA',
-    'rizki':'1GoG-NkaoHqZzwady4fQtOWVt0X5LdpLF-AdNq14tJzg',
-    'najma':'1yyJad1tW4b7vRi_wCX2dta6DR42sDso9eSWOt8plw3M',
-    'maman':'1EccOiTstxHbG7fJZz4eVTt3bErzVZEj7F_ph5N22Nxw',
-    'khairul':'1EnUOvhu6yYxj42Yf-lS5kruI9-ZFWooz4357MsHdB_k',
-    'haikal':'1iRLF9RESVjplshFepQ02gJ4PkEcAKAVWlTRKnsXVD48',
-    'ghazi':'1NeA4aZe2srb5MJvVuz5yn7spbA-S6qI4miVoFwcTscY',
-    'acin':'1ukndPZd2tw52COc6kHIfjNfnzcWbKbOi4nf1aAk-EQ8'
+    'yuzarsif':'',
+    'yusuf':'',
+    'rizki':'',
+    'najma':'',
+    'maman':'',
+    'khairul':'',
+    'haikal':'',
+    'ghazi':'',
+    'acin':''
   };
   let SPREADSHEET_IDTARGET = spreadsheetMap[emailBySession];
   if (!SPREADSHEET_IDTARGET) {
@@ -218,6 +219,7 @@ export async function getFilteredBakatData(query, currentPage) {
           return dateB - dateA;
         }) // Mengurutkan idBakat terbaru ke terlama
         .slice(offset, offset + ITEMS_PER_PAGE);
+      
 
       return filteredRows;
     }
