@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <SessionWrapper>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={`${inter.className} bg-stone-100`}>{children}</body>
       </html>
     </SessionWrapper>
   );

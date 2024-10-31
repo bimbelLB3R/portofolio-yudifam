@@ -1,7 +1,7 @@
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import { lusitana } from "./fonts";
 import Image from "next/image";
-import profilPic from "/app/ui/logosattsd.png";
+import profilPic from "/app/ui/logosattsd2.png";
 export default function PortofolioLogo() {
   return (
     <div

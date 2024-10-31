@@ -26,7 +26,7 @@ export default async function Seksualitas({ searchParams }) {
     <div className="w-full">
       <div className="flex w-full items-center justify-center">
         <h1
-          className={`${inter.className} text-2xl text-center font-bold text-blue-600`}
+          className={`${inter.className} text-2xl text-center font-bold text-[#c68e3f]`}
         >
           Fitrah Seksualitas
         </h1>

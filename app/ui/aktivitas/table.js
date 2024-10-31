@@ -64,7 +64,7 @@ export default async function AktivitasTable({ query, currentPage }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle ">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0 ">
+        <div className="rounded-lg  p-2 md:pt-0 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {aktivitases?.map((aktivitas) => {
               // Filter usulaktivitases to get matching id_aktivitas for each aktivitas
@@ -75,10 +75,10 @@ export default async function AktivitasTable({ query, currentPage }) {
               return (
                 <div
                   key={aktivitas.id_aktivitas}
-                  className=" mb-4 w-full rounded-md bg-white p-4 shadow-lg "
+                  className=" mb-4 w-full rounded-md  p-4 shadow-lg "
                 >
                   {/* Display main aktivitas details */}
-                    <div className='flex items-center justify-between bg-green-100 p-2 w-full rounded-md'>
+                    <div className='flex items-center justify-between bg-stone-50 p-2 w-full rounded-md'>
                       <div className=''>
                         <p className="text-sm font-semibold text-gray-900 ">
                           {aktivitas.nama_aktivitas}
